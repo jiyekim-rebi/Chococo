@@ -12,10 +12,10 @@ Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이
 
 <hr/>
 #### 개발환경
-- Eclipse    
-- JRE/JDK 1.8.0_231   
-- Oracle Database 11g Express Edition(11.2.0.2.0)   
-- Apache Tomcat 9.0   
+- Eclipse       
+- JRE/JDK 1.8.0_231       
+- Oracle Database 11g Express Edition(11.2.0.2.0)      
+- Apache Tomcat 9.0     
 - Spring Framework 4.1.1   
 - jQuery v1.11.1   
 - Apache Tiles 3.0.4   
