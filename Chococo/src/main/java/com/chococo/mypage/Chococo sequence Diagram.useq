@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.4" icons="true" generate-combined-fragments="true">  
+  <object id="1" language="java" name="com.chococo.mypage.Member.Controller.MemberController" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/Controller/MemberController.java" binary="false" 
+    label="memberController" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="396" width="179" x="5" y="82"/>    
+    </execution>    
+    <execution id="7">      
+      <position height="21" width="7" x="91" y="173"/>    
+    </execution>    
+    <execution id="8">      
+      <position height="106" width="7" x="91" y="288"/>    
+    </execution>    
+    <execution id="10">      
+      <position height="21" width="7" x="91" y="352"/>    
+    </execution>  
+  </object>  
+  <object id="11" language="java" name="com.chococo.mypage.Member.Service.MemberServiceImpl" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/Service/MemberServiceImpl.java" binary="false" 
+    label="memberServiceImpl" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="4">      
+      <position height="154" width="171" x="188" y="103"/>    
+    </execution>    
+    <execution id="14">      
+      <position height="63" width="7" x="270" y="152"/>    
+    </execution>    
+    <execution id="6">      
+      <position height="237" width="7" x="270" y="220"/>    
+    </execution>    
+    <execution id="18">      
+      <position height="148" width="7" x="273" y="267"/>    
+    </execution>  
+  </object>  
+  <object id="20" language="java" name="com.chococo.mypage.Member.DAO.MemberDAOImpl" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/DAO/MemberDAOImpl.java" binary="false" label="memberDAOImpl" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="13">      
+      <position height="112" width="159" x="363" y="124"/>    
+    </execution>    
+    <execution id="17">      
+      <position height="195" width="7" x="439" y="241"/>    
+    </execution>  
+  </object>  
+  <object id="23" language="java" name="com.chococo.mypage.Member.Controller.MemberController" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/Controller/MemberController.java" binary="false" 
+    label="memberController1" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="24">      
+      <position height="222" width="179" x="526" y="166"/>    
+    </execution>    
+    <execution id="29">      
+      <position height="21" width="7" x="612" y="270"/>    
+    </execution>    
+    <execution id="28">      
+      <position height="21" width="7" x="612" y="346"/>    
+    </execution>  
+  </object>  
+  <object id="30" language="java" name="com.chococo.mypage.Member.Service.MemberServiceImpl" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/Service/MemberServiceImpl.java" binary="false" 
+    label="memberServiceImpl1" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="26">      
+      <position height="167" width="171" x="709" y="187"/>    
+    </execution>    
+    <execution id="33">      
+      <position height="63" width="7" x="791" y="249"/>    
+    </execution>  
+  </object>  
+  <object id="35" language="java" name="com.chococo.mypage.Member.DAO.MemberDAOImpl" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/DAO/MemberDAOImpl.java" binary="false" label="memberDAOImpl1" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="32">      
+      <position height="125" width="159" x="884" y="208"/>    
+    </execution>  
+  </object>  
+  <object id="37" language="java" name="com.chococo.mypage.Member.Controller.MemberController" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/Controller/MemberController.java" binary="false" 
+    label="memberController2" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="38">      
+      <position height="210" width="179" x="1047" y="162"/>    
+    </execution>    
+    <execution id="43">      
+      <position height="21" width="7" x="1133" y="246"/>    
+    </execution>    
+    <execution id="42">      
+      <position height="21" width="7" x="1133" y="330"/>    
+    </execution>  
+  </object>  
+  <object id="44" language="java" name="com.chococo.mypage.Member.Service.MemberServiceImpl" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/Service/MemberServiceImpl.java" binary="false" 
+    label="memberServiceImpl2" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="40">      
+      <position height="147" width="171" x="1230" y="183"/>    
+    </execution>    
+    <execution id="47">      
+      <position height="63" width="7" x="1312" y="225"/>    
+    </execution>  
+  </object>  
+  <object id="49" language="java" name="com.chococo.mypage.Member.DAO.MemberDAOImpl" project="Chococo" 
+    file="/Chococo/src/main/java/com/chococo/mypage/Member/DAO/MemberDAOImpl.java" binary="false" label="memberDAOImpl2" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="46">      
+      <position height="105" width="159" x="1405" y="204"/>    
+    </execution>  
+  </object>  
+  <message id="3" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="9" 
+    operation="create(com.chococo.mypage.Member.VO.MemberVO,org.springframework.ui.Model):java.lang.String" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>  
+  <message id="12" operation="overlapId(com.chococo.mypage.Member.VO.MemberVO):int" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="13"/>  
+  </message>  
+  <message id="15" operation="hashCode():int" asynchronous="false">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="16" operation="create(com.chococo.mypage.Member.VO.MemberVO):int" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="19" operation="notify():void" asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="21" asynchronous="false">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="14"/>  
+  </message>  
+  <message id="22" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>  
+  <message id="25" asynchronous="false">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="26"/>  
+  </message>  
+  <message id="27" 
+    operation="login(org.springframework.ui.Model,com.chococo.mypage.Member.VO.MemberVO,javax.servlet.http.HttpSession,javax.servlet.http.HttpServletRequest):java.lang.String" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="28"/>  
+  </message>  
+  <message id="31" 
+    operation="searchMemberByLogin(com.chococo.mypage.Member.VO.MemberVO):com.chococo.mypage.Member.VO.MemberVO" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="32"/>  
+  </message>  
+  <message id="34" operation="getClass():java.lang.Class&lt;?&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="29"/>  
+  </message>  
+  <message id="36" asynchronous="false">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="33"/>  
+  </message>  
+  <message id="39" asynchronous="false">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="40"/>  
+  </message>  
+  <message id="41" 
+    operation="deleteMember(javax.servlet.http.HttpSession,org.springframework.ui.Model):java.lang.String" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="42"/>  
+  </message>  
+  <message id="45" operation="deleteMember(com.chococo.mypage.Member.VO.MemberVO):void" asynchronous="false">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="46"/>  
+  </message>  
+  <message id="48" operation="notify():void" asynchronous="false">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="43"/>  
+  </message>  
+  <message id="50" asynchronous="false">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="47"/>  
+  </message>
+</sequence-diagram>

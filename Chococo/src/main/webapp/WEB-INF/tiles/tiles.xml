@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ 
+<tiles-definitions>
+ 
+    <!-- 메뉴 표시 -->
+    <definition name="base" template="/WEB-INF/tiles/home/layout.jsp">
+        <put-attribute name="nav" value="/WEB-INF/tiles/home/nav.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/home/footer.jsp" />
+        <put-attribute name="create" value="/WEB-INF/tiles/home/create.jsp" />
+        <put-attribute name="forget" value="/WEB-INF/tiles/home/forget.jsp" />
+        <put-attribute name="login" value="/WEB-INF/tiles/home/login.jsp" />
+        <put-attribute name="title" value="Welcome to Chococo" />
+    </definition>
+  
+    <definition name="home" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+    </definition>
+    
+    <!-- community -->
+    <definition name="community" template="/WEB-INF/tiles/community/layout.jsp" extends="base">
+    	<put-attribute name="asideMenu" value="/WEB-INF/tiles/community/asideMenu.jsp" />
+    </definition>
+    <definition name="community/*" extends="community">
+		<put-attribute name="body" value="/WEB-INF/views/community/{1}.jsp" />
+    </definition>
+    
+    <!-- market -->
+    <definition name="market" template="/WEB-INF/tiles/market/layout.jsp" extends="base">
+    	<put-attribute name="marketHeader" value="/WEB-INF/tiles/market/marketHeader.jsp" />
+    	<put-attribute name="marketFooter" value="/WEB-INF/tiles/market/marketFooter.jsp" />
+    </definition>
+    <definition name="market/*" extends="market">
+		<put-attribute name="body" value="/WEB-INF/views/market/{1}.jsp" />
+    </definition>
+    
+    <!-- mypage -->
+    <definition name="mypage" template="/WEB-INF/tiles/community/layout.jsp" extends="base">
+    	<put-attribute name="asideMenu" value="/WEB-INF/tiles/mypage/asideMenu.jsp" />
+    </definition>
+    <definition name="mypage/*" extends="mypage">
+    	<put-attribute name="body" value="/WEB-INF/views/mypage/{1}.jsp" />
+    </definition>
+    
+    <!-- admin -->
+    <definition name="admin" template="/WEB-INF/tiles/admin/layout.jsp">
+    	<put-attribute name="asideMenu" value="/WEB-INF/tiles/admin/asideMenu.jsp" />
+    	<put-attribute name="nav" value="/WEB-INF/tiles/admin/nav.jsp" />
+    	<put-attribute name="body" value="" />
+    	<put-attribute name="footer" value="/WEB-INF/tiles/admin/footer.jsp" />
+    </definition>
+    <definition name="admin/*" extends="admin">
+    	<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
+    </definition>
+    
+</tiles-definitions>

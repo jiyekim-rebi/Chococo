@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+<typeAliases>
+	<typeAlias type="com.chococo.mypage.Member.VO.MemberVO" alias="MemberVO"/>
+	<typeAlias type="com.chococo.mypage.Community.VO.CommunityVO" alias="CommunityVO"/>
+	<typeAlias type="com.chococo.mypage.Common.VO.PageCriteria" alias="PageCriteria"/>
+	<typeAlias type="com.chococo.mypage.Community.VO.ReplyVO" alias="ReplyVO"/>
+	<typeAlias type="com.chococo.mypage.Market.VO.MarketVO" alias="MarketVO"/>
+	<typeAlias type="com.chococo.mypage.Market.VO.MarketPageCriteria" alias="MarketPageCriteria"/>
+	<typeAlias type="com.chococo.mypage.Market.VO.BasketVO" alias="BasketVO"/>
+	<typeAlias type="com.chococo.mypage.Market.VO.ReviewVO" alias="ReviewVO"/>
+	<typeAlias type="com.chococo.mypage.Market.VO.FavoriteVO" alias="FavoriteVO"/>
+	<typeAlias type="com.chococo.mypage.Admin.VO.ProductVO" alias="ProductVO"/>
+	<typeAlias type="com.chococo.mypage.Member.VO.CouponVO" alias="CouponVO"/>
+</typeAliases>
+
+<!-- 오라클에서 Long타입 가져오기 위한 핸들러 -->
+<typeHandlers>
+	<typeHandler handler="com.chococo.mypage.Common.Handler.LongHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+</typeHandlers>
+  
+</configuration>

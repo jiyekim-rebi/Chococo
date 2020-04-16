@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+create table chococo_reply (
+	replyNo number not null, //리플 번호
+	boardNo number not null, //리플이 달린 게시글의 번호
+	parentReplyNo number, //리플의 답리플이 달린 경우. 몇번 리플에 리플답글 달렸니
+	step number default 1, //1번째 답리플, 2번째 답리플 등등
+	content clob,
+	writer VARCHAR2(100) not null,
+	regDate DATE DEFAULT SYSDATE,
+    parentReplyNoWriter VARCHAR2(100),
+	primary key(replyNo),
+	Constraint Reply_FK foreign key(boardNo) references chococo_community(boardNo)
+);
+create sequence chococo_reply_seq START WITH 1 MINVALUE 0;
+replyNo = chococo_reply_seq.nextval
+ -->
+ 
+<!-- 
+searchReplyAll backups
+
+select 
+	LPAD(' ', 2*(step-1)) || content content, 
+	step, replyNo, boardNo, parentReplyNo, writer, regDate, parentReplyNoWriter 
+	from chococo_reply where boardNo=#{boardNo}
+	start with parentReplyNo is null connect by prior replyNo = parentReplyNo
+	
+2020.03.16 searchReplyAll backup
+	select * from chococo_reply where boardNo=#{boardNo}
+	start with parentReplyNo is null connect by prior replyNo = parentReplyNo
+	
+2020.03.17 searchReplyAll backup
+	select * from 
+	(select row_number() over (order by regdate asc) as rnum, 
+	replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter from chococo_reply 
+	where boardNo = #{article.boardNo}) where rnum between #{cri.rowStart} and #{cri.rowEnd}
+-->
+<mapper namespace="Chococo.reply">
+
+<!-- 2020.03.17 페이지마커로 10개씩 출력 + step 적용 -->
+<select id="searchReplyAll" parameterType="hashmap" resultType="ReplyVO">
+	select * from 
+	(
+		select row_number() over (order by boardNo asc) as rnum, replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter 
+		from chococo_reply where boardNo = #{article.boardNo}
+		start with parentReplyNo is null connect by prior replyNo = parentReplyNo
+	)
+	where rnum between #{cri.rowStart} and #{cri.rowEnd}
+</select>
+
+<!-- 댓글들 다 가져올때 pageMaker 처리를 위한 count 체크 -->
+<select id="replyCount" resultType="int">
+	select count(*) from chococo_reply where boardNo = #{boardNo}
+</select>
+
+<!-- mypage - userName으로 등록된 모든 댓글을 가져옴. order by regDate desc -->
+<select id="mypageSearchReplyAll" parameterType="hashmap" resultType="ReplyVO">
+	select * from
+	(
+		select row_number() over (order by regDate desc) as rnum, content, replyNo, boardNo, regDate from chococo_reply where writer = #{reply.writer}
+	)
+	where rnum between #{cri.rowStart} and #{cri.rowEnd}
+</select>
+<!-- mypage - userName으로 등록된 모든 댓글의 총 갯수 - cri 설정용 -->
+<select id="mypageReplyCount" resultType="int">
+	select count(*) from chococo_reply where writer = #{writer}
+</select>
+
+<!-- 첫번째 댓글, 완전 새로 다는 댓글 -->
+<insert id="newReply">
+	insert into chococo_reply (replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter) 
+	values (chococo_reply_seq.nextval, #{boardNo}, null, 1, #{content}, #{writer}, sysdate, null)
+</insert>
+
+<!-- 부모 댓글 번호를 가지고 있는 댓글 추가 -->
+<insert id="parentNewReply">
+	insert into chococo_reply (replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter) 
+	values (chococo_reply_seq.nextval, #{boardNo}, #{parentReplyNo}, 2, #{content}, #{writer}, sysdate, #{parentReplyNoWriter})
+</insert>
+
+<!-- 댓글 삭제(단일댓글) -->
+<delete id="deleteReply">
+	delete from chococo_reply where replyNo = #{replyNo}
+</delete>
+
+<!-- 게시글을 삭제할때 리플도 같이 지워지게.-->
+<delete id="deleteReplyByBoard">
+	delete from chococo_reply where boardNo = #{boardNo}
+</delete>
+</mapper>

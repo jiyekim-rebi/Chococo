@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- tiles 3 setting -->	    
+    <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <beans:property name="order" value="1" />
+    </beans:bean>
+	
+	 <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <beans:property name="definitions">
+            <beans:list>
+                <beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2" />
+	</beans:bean>
+    
+	<!-- com.chococo.mypage 하단 모든 파일들 bean 처리 -->
+	<context:component-scan base-package="com.chococo.mypage" />
+	
+	<!-- 인터셉트 설정 2020.03.30 -->
+	<!-- 프로젝트가 실행되는 웹 환경과 관련된 설정은 이곳에서 설정함. -->
+	<beans:bean id="LoginInterceptor" class="com.chococo.mypage.Common.Interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="AdminInterceptor" class="com.chococo.mypage.Common.Interceptor.AdminInterceptor"></beans:bean>
+	<beans:bean id="BoardInsertInterceptor" class="com.chococo.mypage.Common.Interceptor.BoardInsertInterceptor"></beans:bean>
+	<beans:bean id="BoardModifyInterceptor" class="com.chococo.mypage.Common.Interceptor.BoardModifyInterceptor"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/mypage/**"/>
+			<beans:ref bean="LoginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:ref bean="AdminInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/community/boardInsert"/>
+			<beans:ref bean="BoardInsertInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/community/boardModify"/>
+			<beans:ref bean="BoardModifyInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
+	<!-- 파일업로드 관련 세팅 -->
+	<!-- MultipartResolver 설정 --> 
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+		<beans:property name="maxUploadSize" value="200000000" /> 
+		<beans:property name="maxInMemorySize" value="200000000" /> 
+	</beans:bean>
+	
+	<!-- 업로드 패스 설정 --> 
+	<beans:bean class="java.lang.String" id="uploadPath">
+		<beans:constructor-arg value="D:\\chococo_market\\" />
+	</beans:bean>
+	
+	<!-- 일반 파일 업로드 경로 -->
+	<resources mapping="/imgUpload/**" location="/resources/imgUpload/" />
+	
+	
+
+
+</beans:beans>

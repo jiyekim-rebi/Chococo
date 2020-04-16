@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Chococo.market">
+<!-- 
+
+//2020.04.06 content 자료형 clob로 처리
+chococo_market_first, chococo_market_second,chococo_market_third, chococo_market_fourth
+create table chococo_market_first(
+productNo number not null,
+productName varchar2(250) not null,
+price number not null,
+selectoption varchar2(300) not null,
+regDate date default sysdate,
+imageFileName varchar2(500),
+hit number default 0,
+subCategory number not null,
+content clob default '상품설명',
+primary key(productNo)
+);
+
+create sequence chococo_market_first_seq START WITH 1 MINVALUE 0;
+create sequence chococo_market_second_seq START WITH 1 MINVALUE 0;
+create sequence chococo_market_third_seq START WITH 1 MINVALUE 0;
+create sequence chococo_market_fourth_seq START WITH 1 MINVALUE 0;
+
+//2020.04.06 mainCategory 필요함.
+alter table chococo_market_first add (mainCategory number default 1);
+alter table chococo_market_second add (mainCategory number default 2);
+alter table chococo_market_third add (mainCategory number default 3);
+alter table chococo_market_fourth add (mainCategory number default 4);
+
+
+(회원, 비회원 둘다 만들어야 함)
+mainCategory 번호는 쟁여놔야함. 여기는 db가 다르기때문에 productNo로도 구별할 수 없어.
+
+2020.04.02
+create table chococo_market_review (
+    productNo number not null,
+    boardNo number not null,
+    writer varchar2(100) not null,
+    content clob,
+    regDate date default sysdate,
+    mainCategory number not null,
+    productName varchar2(250) not null,
+    primary key(boardNo)
+);
+
+create sequence chococo_market_review_seq start with 1 minvalue 0;
+
+
+
+2020.03.29
+create table chococo_market_favorite(
+	userEmail varchar2(200) not null,
+	mainCategory number not null,
+	productNo number not null,
+	productName varchar2(250) not null,
+	regDate date default sysdate,
+	imageFileName varchar2(500)
+);
+
+
+2020.03.31 Order database modify!
+
+이렇게 변경하는 걸로 함.
+1. 비회원, 회원 주문 DB는 통합함. (chococo_market_order)
+2. 비회원, 회원 구분 해서 주문한거 저장하는 DB를 분할시킬 것 (chococo_order_member, nomember)
+
+//2020.04.06 수정
+create table chococo_market_order (
+    productNo number not null,
+    orderNo number not null,
+    productName varchar2(250) not null,
+    mainCategory number not null,
+    price number not null,
+    amount number default 1,
+    selectOption varchar2(100) not null,
+    orderDate date default sysdate,
+    userName varchar2(100) not null,
+    userEmail varchar2(200) not null,
+    address varchar2(300),
+    trackingNum varchar2(150) default '-',
+    shippingStatus varchar2(30) default '배송준비',
+    memberExists number default 1,
+    imageFileName varchar2(500)
+);
+
+create sequence chococo_market_order_seq start with 1000 minvalue 1000;
+
+-->
+<sql id="mainCategorySelect">
+	<if test="mainCategory != null">
+		<if test="mainCategory == 1">chococo_market_first</if>
+		<if test="mainCategory == 2">chococo_market_second</if>
+		<if test="mainCategory == 3">chococo_market_third</if>
+		<if test="mainCategory == 4">chococo_market_fourth</if>
+	</if>
+</sql>
+
+<!-- 신상품 1, 상품명 2, 낮은가격 3, 높은가격 4, 인기상품 5 -->
+<sql id="subCategoryOrderBy">
+	<if test="subCategoryOrder != null">
+		<if test="subCategoryOrder == 1">order by regDate desc</if>
+		<if test="subCategoryOrder == 2">order by productName asc</if>
+		<if test="subCategoryOrder == 3">order by price asc</if>
+		<if test="subCategoryOrder == 4">order by price desc</if>
+		<if test="subCategoryOrder == 5">order by hit desc</if>
+	</if>
+</sql>
+
+<sql id="memberChecksql">
+	<if test="checkMember != null">
+		<if test="checkMember == 0">chococo_order_noMember</if>
+		<if test="checkMember == 1">chococo_order_member</if>
+	</if>
+</sql>
+
+<select id="selectListMainCategory" resultType="MarketVO">
+	select productNo, productName, price, imageFileName from <include refid="mainCategorySelect"/> where subCategory = #{subCategory} <include refid="subCategoryOrderBy"/>
+</select>
+
+<!-- total of item -->
+<select id="totalOfitem" resultType="int">
+	select count(*) from <include refid="mainCategorySelect"/> where subCategory = #{subCategory}
+</select>
+
+<!-- productDetail - 상품 상세정보 가져오기, MainCategorySelect 받아와야해.-->
+<select id="productDetail" parameterType="HashMap" resultType="MarketVO">
+	select * from <include refid="mainCategorySelect"/> where productNo = #{marketVO.productNo}
+</select>
+
+
+
+
+
+
+
+<!-- order DB for market -->
+<insert id="memberOrder">
+	insert into chococo_market_order 
+	(productNo, orderNo, productName, mainCategory, price, amount, selectOption, userName, userEmail, address, memberExists, imageFileName) 
+	values 
+	(#{productNo}, #{orderNo}, #{productName}, #{mainCategory}, #{price}, #{amount}, #{selectOption}, 
+	#{userName}, #{userEmail}, #{address}, #{memberExists}, #{imageFileName})
+</insert>
+
+<!-- 상품 구매할때 숫자 올라가게 처리 -->
+<update id="orderHit">
+	update <include refid="mainCategorySelect"/> set hit = hit+1 where productNo = #{productNo}
+</update>
+
+<select id="orderNoSetting" resultType="int">
+	SELECT chococo_market_order_seq.nextval FROM DUAL
+</select>
+
+
+
+
+
+
+<!-- Market Review -->
+<select id="reviewList" parameterType="HashMap" resultType="ReviewVO">
+	select * from chococo_market_review where mainCategory = #{mainCategory} and productNo = #{marketVO.productNo} order by regDate desc
+</select>
+
+<update id="reviewModify">
+	update chococo_market_review set content = #{content} where boardNo = #{boardNo}
+</update>
+
+<delete id="reviewDelete">
+	delete from chococo_market_review where boardNo = #{boardNo}
+</delete>
+
+<insert id="reviewInsert">
+	insert into chococo_market_review 
+	(productNo, boardNo, writer, content, regDate, mainCategory, productName) 
+	values 
+	(#{productNo}, chococo_market_review_seq.nextval, #{writer}, #{content}, sysdate, #{mainCategory}, #{productName})
+</insert>
+
+
+
+
+
+
+
+<!-- mypage - 내가 산 물품 불러오기 -->
+<select id="mypageOrderList" resultType="BasketVO">
+	select * from chococo_market_order where userName = #{userName} and memberExists = 1 
+	order by orderDate
+</select>
+
+<!-- mypage - 내가 작성한 리뷰 불러오기 -->
+<select id="myProductReview" resultType="ReviewVO">
+	select * from chococo_market_review where writer = #{userName} order by regDate desc
+</select>
+
+
+
+
+
+<!-- favorite mapper -->
+<select id="favoriteSearch" resultType="int">
+	select count(*) from chococo_market_favorite where userEmail = #{userEmail} and productNo = #{productNo} and mainCategory = #{mainCategory} and imageFileName = #{imageFileName}
+</select>
+
+<insert id="favoriteAdd">
+	insert into chococo_market_favorite values 
+	(#{userEmail}, #{mainCategory}, #{productNo}, #{productName}, sysdate, #{imageFileName})
+</insert>
+
+<delete id="favoriteDel">
+	delete from chococo_market_favorite where userEmail = #{userEmail} and productNo = #{productNo} and mainCategory = #{mainCategory}
+</delete>
+
+<select id="favoriteList" resultType="FavoriteVO">
+	select * from chococo_market_favorite where userEmail = #{userEmail} order by regDate
+</select>
+
+
+<!-- 2020.04.06 market-main화면 -->
+<select id="recommendProducts" resultType="MarketVO">
+		select * from (
+    	select * from (
+    		select productNo, imageFileName, mainCategory, regDate from chococo_market_first 
+   			union 
+    		select productNo, imageFileName, mainCategory, regDate from chococo_market_second
+    		union 
+    		select productNo, imageFileName, mainCategory, regDate from chococo_market_third
+    		union 
+    		select productNo, imageFileName, mainCategory, regDate from chococo_market_fourth
+    	) order by DBMS_RANDOM.RANDOM
+	) <![CDATA[ where rownum >=1 and rownum <=8 ]]>
+</select>
+
+<select id="newProducts" resultType="MarketVO">
+select * from (
+    select * from (
+    select productNo, imageFileName, mainCategory, regDate from chococo_market_first 
+    union 
+    select productNo, imageFileName, mainCategory, regDate from chococo_market_second
+    union 
+    select productNo, imageFileName, mainCategory, regDate from chococo_market_third
+    union 
+    select productNo, imageFileName, mainCategory, regDate from chococo_market_fourth
+    ) order by regDate
+) <![CDATA[where rownum >=1 and rownum <=8]]>
+</select>
+
+<select id="trandingProducts" resultType="MarketVO">
+	select * from (
+    select * from (
+    select productNo, imageFileName, mainCategory, regDate, hit from chococo_market_first 
+    union 
+    select productNo, imageFileName, mainCategory, regDate, hit  from chococo_market_second
+    union 
+    select productNo, imageFileName, mainCategory, regDate, hit  from chococo_market_third
+    union 
+    select productNo, imageFileName, mainCategory, regDate, hit  from chococo_market_fourth
+    ) order by hit desc
+) <![CDATA[where rownum >=1 and rownum <=8]]>
+</select>
+
+</mapper>

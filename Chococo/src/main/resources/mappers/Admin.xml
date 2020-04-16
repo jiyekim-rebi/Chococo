@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+2020.04.03 쿠폰 등록 관련 DB
+create table chococo_coupon (
+	userName varchar2(100) not null,
+	ratio number not null,
+    couponNumber clob not null,
+	content clob not null,
+	createDate date default sysdate,
+	isUse number default 1
+);
+ -->
+
+<mapper namespace="Chococo.admin">
+
+<sql id="mainCategoryName">
+	<if test="mainCategory != null">
+		<if test="mainCategory == 1">chococo_market_first</if>
+		<if test="mainCategory == 2">chococo_market_second</if>
+		<if test="mainCategory == 3">chococo_market_third</if>
+		<if test="mainCategory == 4">chococo_market_fourth</if>
+	</if>
+</sql>
+
+<!-- 상품 추가하기 -->
+<insert id="marketProductAdd" parameterType="HashMap">
+	insert into ${mainCategory}
+	(productNo, productName, price, selectOption, subCategory, content, imageFileName) 
+	values
+	(${mainCategory}_seq.nextval, #{product.productName}, #{product.price}, #{product.selectOption}, #{product.subCategory}, #{product.content}, 
+	#{product.imageFileName})
+</insert>
+
+<select id="productList" resultType="ProductVO">
+	select * from 
+	( select row_number() over (order by regdate) as rnum, productNo, productName, price, selectOption, hit, subCategory 
+	from <include refid="mainCategoryName"/> 
+	<if test="keyword == ''">)</if>
+	<if test="keyword != ''"> where productName like '%' || #{keyword} || '%')</if>
+	 where rnum between #{rowStart} and #{rowEnd}
+</select>
+
+<select id="productListCount" resultType="int">
+	select count(*) from <include refid="mainCategoryName"/>
+	<if test="keyword != ''">
+		where productName like '%' || #{keyword} || '%'
+	</if>
+</select>
+
+<!-- productView -->
+<select id="productView" parameterType="HashMap" resultType="ProductVO">
+	select * from <include refid="mainCategoryName"/> where productNo = #{productNo}
+</select>
+
+<!-- productModify -->
+<update id="productModify">
+	update <include refid="mainCategoryName"/> set productName = #{productName}, price = #{price}, 
+	subCategory = #{subCategory}, selectOption = #{selectOption}, content = #{content}, imageFileName = #{imageFileName}
+	where productNo = ${productNo}
+</update>
+
+<!-- productDelete -->
+<delete id="productDelete">
+	delete from <include refid="mainCategoryName"/> where productNo = #{productNo}
+</delete>
+
+
+
+
+
+<!-- shpping - 배송관리 -->
+<select id="shippingList" resultType="BasketVO">
+	select DISTINCT orderNo, userName, userEmail, memberExists, orderDate, trackingNum, productNo, mainCategory, productName 
+	from chococo_market_order where shippingStatus = #{shippingStatus} order by orderNo
+</select>
+
+<!-- shippingReady - modify, delete view -->
+<select id="shippingReadyView" resultType="BasketVO">
+	select selectOption, address, 
+	amount, productNo, productName, mainCategory, 
+	shippingStatus, trackingNum, imageFileName from chococo_market_order where shippingStatus = '배송준비' and orderNo = #{orderNo}
+</select>
+
+<!-- shippingView - modify : 수량이나 옵션만 바꾸는 경우 hit 변경이 따로 필요없음 -->
+<update id="orderModify">
+	update chococo_market_order set address = #{address}, selectOption = #{selectOption} 
+	where orderNo = #{orderNo} and mainCategory = #{mainCategory} and productNo = #{productNo}
+</update>
+
+<update id="trackingUpdate">
+	update chococo_market_order set trackingNum = #{trackingNum}, shippingStatus = '배송중' 
+	where orderNo = #{orderNo} and mainCategory = #{mainCategory} and productNo = #{productNo}
+</update>
+
+<update id="trackingSuccess">
+	update chococo_market_order set shippingStatus = '배송완료' 
+	where orderNo = #{orderNo} and mainCategory = #{mainCategory} and productNo = #{productNo}
+</update>
+
+
+
+
+<select id="orderSuccessList" resultType="BasketVO">
+	select * from chococo_market_order where shippingStatus = '배송완료'
+</select>
+
+
+
+
+<!-- community notice List -->
+<select id="noticeList" resultType="CommunityVO">
+	select * from (select row_number() over (order by regdate) as rnum, boardNo, title, content, writer, regdate, step from chococo_community where
+	<if test="keyword == ''">
+		categoryNo = 1) 
+	</if>
+	<if test="keyword != ''">
+	 (content LIKE '%' || #{keyword} || '%') or (title like '%' || #{keyword} || '%') and categoryNo = 1)
+	</if>
+	where rnum between #{rowStart} and #{rowEnd}
+</select>
+
+<!-- community notice List total count -->
+<select id="noticeListCount" resultType="int">
+	select count(*) from chococo_community where categoryNo = 1
+</select>
+
+<insert id="noticeInsert">
+	insert into chococo_community values (1, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, 1, null)
+</insert>
+
+<select id="noticeView" resultType="CommunityVO">
+	select * from chococo_community where boardNo = #{boardNo}
+</select>
+
+<update id="noticeModify">
+	update chococo_community set content = #{content}, title = #{title} where categoryNo = 1 and boardNo = #{boardNo}
+</update>
+
+<delete id="noticeDelete">
+	delete from chococo_community where boardNo = #{boardNo} and writer = #{writer} 
+</delete>
+
+
+
+
+
+
+<!-- memberList - userName에 맞게 정보 가져오기. -->
+<select id="memberSelectResult" resultType="MemberVO">
+	select * from chococo_member where userName = #{userName}
+</select>
+
+<update id="adminMemberBanUpdate">
+	update chococo_member set isBan = #{isBan} where userName = #{userName}
+</update>
+
+<update id="adminMemberInfoUpdate">
+	update chococo_member set address = #{address}, 
+	birth_year = #{birth_year}, birth_month = #{birth_month}, 
+	birth_day = #{birth_day} where userName = #{userName}
+</update>
+
+<delete id="adminMemberDelete">
+	delete from chococo_member where userName = #{userName}
+</delete>
+
+
+
+
+
+
+<!-- 2020.04.03 coupon -->
+<!-- 쿠폰생성 -->
+<insert id="adminCouponCreate">
+	insert into chococo_coupon (userName, ratio, content, couponNumber) values (#{userName}, #{ratio}, #{content}, #{couponNumber})
+</insert>
+
+<!-- 쿠폰사용중단 -->
+<update id="adminCouponNotUse">
+	update chococo_coupon set isUse = 0 where to_char(couponNumber) = #{couponNumber}
+</update>
+
+<!-- 전체 쿠폰 리스트  & search 통합 -->
+<select id="adminCouponList" resultType="CouponVO">
+	select * from 
+	( select row_number() over (order by createDate) as rnum,
+	 userName, ratio, content, createDate, isUse, couponNumber from chococo_coupon
+	<if test="keyword == ''">)</if>
+	<if test="keyword != ''"> where content like '%' || #{keyword} || '%' )</if>
+	where rnum between #{rowStart} and #{rowEnd}
+</select>
+
+<!-- 쿠폰창 페이지 마커를 위한 count 체크 -->
+<select id="adminCouponCount" resultType="int">
+	select count(*) from chococo_coupon
+</select>
+
+<!-- 쿠폰 중복생성 방지 -->
+<select id="adminCouponCheck" resultType="int">
+	select count(*) from chococo_coupon where to_char(couponNumber) = #{couponNumber}
+</select>
+
+
+
+
+</mapper>

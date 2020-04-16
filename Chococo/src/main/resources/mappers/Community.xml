@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+2020.03.31 db
+create table chococo_community (
+categoryNo NUMBER NOT NULL, 
+boardNo NUMBER NOT NULL, 
+title VARCHAR2(200) NOT NULL, 
+content clob, 
+writer VARCHAR2(100) NOT NULL, 
+regdate DATE DEFAULT SYSDATE,
+step number default 1,
+parentBoardNo number,
+PRIMARY KEY(boardNo) 
+);
+create sequence chococo_community_seq START WITH 1 MINVALUE 0;
+insert할때 boardNo = chococo_community_seq.nextval
+
+
+//Community, reply 부분 분할해서 나눠야 함.
+https://mine-it-record.tistory.com/167
+
+-->
+<mapper namespace="Chococo.community">
+
+	<!-- 작성자, 내용, 제목과 검색 키워드 부분이니 수정할 필요 없음. -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()"> TITLE LIKE '%' || #{keyword} || '%'</if>
+			<!-- 2020.04.02 이거 long 타입이라 수정해야함!!! --><if test="searchType == 'c'.toString()"> CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()"> WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()"> (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%') </if>
+		</if>
+	</sql>
+
+	<!-- 
+	게시글 불러오기 - 
+	categoryNo 1 = CommunityNotice 2 = Lecture 3 = DIY MarketPlace 4 = FreeTalk 
+	-->
+	
+	<!--
+	2020.03.17
+	1. 일단 list에선 답글은 따로 나오게 하지 않음
+	2. 근데 search 돌릴땐 답글도 나오게 돌림.
+	-->
+	<select id="searchArticle" resultType="CommunityVO">
+	select * from (select row_number() over (order by regdate desc) as rnum, boardNo, title, content, writer, regdate, step from chococo_community where 
+		<if test="searchType == '' and keyword == ''">
+		categoryNo = #{categoryNo} and step = 1) where rnum between #{rowStart} and #{rowEnd}
+		</if>
+		<if test="searchType != '' and keyword != ''">
+		<include refid="search"></include>) where rnum between #{rowStart} and #{rowEnd}
+		</if>
+	</select>
+
+	<select id="listCount" resultType="int">
+	select count(*) from chococo_community where 
+			<if test="searchType == '' and keyword == ''">
+				categoryNo = #{categoryNo}
+			</if>
+			<if test="searchType != '' and keyword != ''">
+				<include refid="search"></include>
+			</if>
+	</select>
+	
+	<!-- 
+	2020.03.18
+	mypage에서 본인이 쓴 글만 모아서 '페이징' 처리 할거라서 새로 추가해줘야 함.
+	
+	select boardNo, title, regDate from
+	(select row_number() over (order by regDate desc) as rnum, boardNo, title, regDate from chococo_community where writer = 'admin')
+	where rnum between 1 and 10;
+	-->
+	<!-- article.writer, cri.rowSrart, cri.rowEnd -->
+	<select id="mypageSearchArticle" parameterType="hashmap" resultType="CommunityVO">
+		select boardNo, title, regDate from
+		(select row_number() over (order by regDate desc) as rnum, boardNo, title, regDate from chococo_community where writer = #{article.writer})
+		where rnum between #{cri.rowStart} and #{cri.rowEnd}
+	</select>
+	
+	<select id="mypageListCount" resultType="int">
+		select count(*) from chococo_community where writer = #{writer}
+	</select>
+
+	<!-- recentPost -->
+	<select id="recentPost" resultType="CommunityVO">
+	<![CDATA[
+		select * from (select * from chococo_community order by regdate desc) where rownum <= 5
+	]]>
+	</select>
+
+	<!-- ArticleView -->
+	<select id="articleView" resultType="CommunityVO">
+		select * from chococo_community where boardNo = #{boardNo}
+	</select>
+	
+	<!-- ModifyArticle -->
+	<update id="modifyArticle">
+		UPDATE CHOCOCO_COMMUNITY SET categoryNo = #{categoryNo}, title = #{title}, content = #{content} WHERE boardNo = #{boardNo}
+	</update>
+	
+	<!-- insertArticle -->
+	<insert id="insertArticle">
+		insert into chococo_community (categoryNo, boardNo, title, content, writer, regDate, step, parentBoardNo) 
+		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, 1, null)
+	</insert>
+	
+	<!-- insertParentArticle -->
+	<insert id="insertParentArticle">
+		insert into chococo_community (categoryNo, boardNo, title, content, writer, regDate, step, parentBoardNo) 
+		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, 2, #{parentBoardNo})
+	</insert>
+	
+	<!-- deleteArticle -->
+	<delete id="deleteArticle">
+		delete from chococo_community where boardNo = #{boardNo}
+	</delete>
+	
+	<!-- 게시글 답글 관련 -->
+	<!-- select LPAD('　', 2*(step-1)) || content content, title, step, categoryNo, boardNo, parentBoardNo, writer, regDate from chococo_community 
+	where parentBoardNo = (select * from chococo_community where boardNo = #{boardNo}) 
+	start with parentBoardNo is null connect by prior boardNo = parentBoardNo -->
+	<select id="articleChild" resultType="CommunityVO">
+		select LPAD('　', 8*(step-1)) || title title, content, step, categoryNo, boardNo, parentBoardNo, writer, regDate from chococo_community 
+		where parentBoardNo = (select boardNo from chococo_community where boardNo = #{boardNo}) 
+		start with parentBoardNo is null connect by prior boardNo = parentBoardNo
+	</select>
+	
+	<!-- 답글이 있는 경우 전체 답글 달린 게시글이 몇개인지 체크 -->
+	<select id="articleChildCount" resultType="int">
+		select count(*) from chococo_community where parentBoardNo = #{boardNo} and step = 2
+	</select>
+	
+</mapper>

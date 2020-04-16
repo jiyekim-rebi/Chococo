@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+2020.04.02 데이터베이스 수정
+create table chococo_member (
+	userName varchar2(100) not null,
+	userEmail varchar2(200) primary key not null,
+	userPass varchar2(200) not null,
+	birth_year varchar2(10) not null,
+	birth_month varchar2(10) not null,
+	birth_day varchar2(10) not null,
+	sex varchar2(10) not null,
+	joinDate Date default sysdate,
+	address varchar2(300),
+	isAdmin number default 0,
+	isBan number default 0
+);
+
+
+2020.04.03 멤버별 쿠폰 저장 DB
+create table chococo_member_coupon (
+	userName varchar2(100) not null,
+	userEmail varchar2(200) not null,
+    couponNumber clob not null,
+	content clob not null,
+	ratio number not null,
+	createDate date default sysdate,
+	usedDate date,
+	dateOfUse date default sysdate+7
+);
+ -->
+<mapper namespace="Chococo.member">
+
+<sql id="selectAll">
+	SELECT * FROM CHOCOCO_MEMBER
+</sql>
+
+<!-- 회원가입 -->
+<insert id="create">
+	INSERT INTO CHOCOCO_MEMBER (userName, userEmail, userPass, birth_year, birth_month, birth_day, sex, address)
+	values (#{userName}, #{userEmail}, #{userPass}, #{birth_year}, #{birth_month}, #{birth_day}, #{sex}, null)
+</insert>
+
+<!-- 로그인 : 등록되어 있는 정보가 있는지 체크 -->
+<!-- 나중에 세션 등록용으로도 사용. -->
+<select id="searchMemberByLogin" resultType="MemberVO">
+	<include refid="selectAll"/> WHERE userEmail = #{userEmail}
+</select>
+
+<!-- 회원가입 : 이미 등록된 이메일일 경우. -->
+<select id="overlapId" resultType="int">
+	SELECT COUNT(*) FROM CHOCOCO_MEMBER WHERE userEmail = #{userEmail}
+</select>
+
+<!-- 회원탈퇴 from mypage -->
+<delete id="deleteMember">
+	delete from chococo_member where userEmail = #{userEmail}
+</delete>
+
+<!-- 회원정보 수정 from mypage -->
+<update id="modifyMember">
+	update chococo_member set birth_year = #{birth_year}, birth_month = #{birth_month}, birth_day = #{birth_day}, 
+	sex = #{sex}, address = #{address} where userEmail = #{userEmail}
+</update>
+
+<!-- forget Password : 임시비밀번호 설정 -->
+<!-- mypage 에서 비밀번호 변경하는것도 이걸로 해주세용. -->
+<update id="passwordSetting">
+	update chococo_member set userPass = #{userPass} where userEmail = #{userEmail}
+</update>
+
+<!-- 2020.03.27 이메일, 이름 중복 체크 -->
+<select id ="nameChk" resultType="int">
+	select count(*) from chococo_member where userName = #{userName}
+</select>
+
+<select id ="emailChk" resultType="int">
+	select count(*) from chococo_member where userEmail = #{userEmail}
+</select>
+
+<!-- 2020.04.03 coupon -->
+<!-- mypage에서 쿠폰 등록하기 위한 couponSearch -->
+<!-- 쿠폰 번호는 등록되어있으나 isUse가 0이면 더이상 등록할 수 없는 쿠폰이므로. isUse = 1인 조건도 만족해야 함. -->
+<select id="mypageCouponExist" resultType="CouponVO">
+	select couponNumber, content, ratio from chococo_coupon where to_char(couponNumber) = #{couponNumber} and isUse = 1
+</select>
+
+<select id="mypageCouponSearch" resultType="int">
+	select count(*) from chococo_member_coupon where to_char(couponNumber) = #{couponNumber} and userName = #{userName}
+</select>
+
+<insert id="mypageCouponAdd">
+	insert into chococo_member_coupon (userName, userEmail, couponNumber, content, ratio, usedDate) 
+	values (#{userName}, #{userEmail}, #{couponNumber}, #{content}, #{ratio}, null)
+</insert>
+
+<!-- 사용할 수 있는 쿠폰 -->
+<select id="mypageCouponList" resultType="CouponVO">
+	select * from chococo_member_coupon where userName = #{userName} and dateOfUse > sysdate and usedDate is null
+</select>
+
+<!-- 내가 사용한 쿠폰 -->
+<select id="mypageCouponListUsed" resultType="CouponVO">
+	select * from chococo_member_coupon where userName = #{userName} and usedDate is not null
+</select>
+
+<!-- market에서 쿠폰을 사용함. -->
+<update id="mypageCouponUse">
+	update chococo_member_coupon set usedDate = sysdate where userName = #{userName} and to_char(couponNumber) = #{couponNumber}
+</update>
+
+</mapper>
