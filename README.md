@@ -3,8 +3,10 @@
 ### by Kim jiye
 
 <hr/>
-#### 프로젝트 주제
+#### Project topic
+
 ##### Miniature Community & Market
+
 미니어쳐 DIY가 취미인 사람들을 위한 사이트
 
 Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이트를 만드는 것
@@ -20,7 +22,8 @@ Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이
 
 
 <hr/>
-#### 개발환경
+#### Development environment
+
 - Eclipse
 
 - JRE/JDK 1.8.0_231
@@ -47,5 +50,5 @@ Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이
 
 
 <hr/>
-#### 개발기간
+#### Development term
 2020/03/02 ~ 2020/04/05 (35일간)
