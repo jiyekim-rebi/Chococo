@@ -2,9 +2,11 @@
 ## Chococo Project
 ### by Kim jiye
 
-<hr/>
-#### Project topic
 
+
+
+
+#### Project topic
 ##### Miniature Community & Market
 
 미니어쳐 DIY가 취미인 사람들을 위한 사이트
@@ -19,9 +21,6 @@ Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이
 
 
 
-
-
-<hr/>
 #### Development environment
 
 - Eclipse
@@ -49,6 +48,5 @@ Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이
 
 
 
-<hr/>
 #### Development term
 2020/03/02 ~ 2020/04/05 (35일간)
