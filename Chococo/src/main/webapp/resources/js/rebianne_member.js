@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-//회원가입 data checking후 Controller로 전송
+	//회원가입 data checking후 Controller로 전송
 	$(".createMemberDB").click(function(){
 		var formObj=$("form[name='createMemberForm']");
 		

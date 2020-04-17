@@ -27,11 +27,6 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int overlapId(MemberVO member) throws Exception {
-		return session.selectOne("Chococo.member.overlapId", member);
-	}
-
-	@Override
 	public void deleteMember(MemberVO member) throws Exception {
 		session.delete("Chococo.member.deleteMember", member);
 	}

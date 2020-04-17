@@ -47,11 +47,6 @@ create table chococo_member_coupon (
 	<include refid="selectAll"/> WHERE userEmail = #{userEmail}
 </select>
 
-<!-- 회원가입 : 이미 등록된 이메일일 경우. -->
-<select id="overlapId" resultType="int">
-	SELECT COUNT(*) FROM CHOCOCO_MEMBER WHERE userEmail = #{userEmail}
-</select>
-
 <!-- 회원탈퇴 from mypage -->
 <delete id="deleteMember">
 	delete from chococo_member where userEmail = #{userEmail}

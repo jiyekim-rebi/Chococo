@@ -9,7 +9,6 @@ public interface MemberService {
 	
 	public int create(MemberVO member) throws Exception;
 	public MemberVO searchMemberByLogin(MemberVO search) throws Exception;
-	public int overlapId(MemberVO member) throws Exception;
 	//회원탈퇴
 	public void deleteMember(MemberVO member) throws Exception;
 	//회원정보 수정

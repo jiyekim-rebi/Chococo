@@ -28,11 +28,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int overlapId(MemberVO member) throws Exception {
-		return dao.overlapId(member);
-	}
-
-	@Override
 	public void deleteMember(MemberVO member) throws Exception {
 		dao.deleteMember(member);
 	}

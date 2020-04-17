@@ -18,8 +18,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-		<property name="username" value=""/> 
-		<property name="password" value=""/> 
+		<property name="username" value="kgitbank"/> 
+		<property name="password" value="itbank"/> 
 	</bean>
    
     <!-- SqlSession --> 
@@ -43,8 +43,8 @@
 	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="smtp.gmail.com" />
 	 	<property name="port" value="587" />
-	 	<property name="username" value="username" />
-	 	<property name="password" value="password" />
+	 	<property name="username" value="rebianne03@gmail.com" />
+	 	<property name="password" value="lullaby04" />
 	 	<property name="javaMailProperties">
 	 		<props>
 	 			<prop key="mail.smtp.auth">true</prop>
