@@ -91,13 +91,7 @@ create sequence chococo_community_seq START WITH 1 MINVALUE 0;
 	<!-- insertArticle -->
 	<insert id="insertArticle">
 		insert into chococo_community (categoryNo, boardNo, title, content, writer, regDate, step, parentBoardNo) 
-		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, 1, null)
-	</insert>
-	
-	<!-- insertParentArticle -->
-	<insert id="insertParentArticle">
-		insert into chococo_community (categoryNo, boardNo, title, content, writer, regDate, step, parentBoardNo) 
-		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, 2, #{parentBoardNo})
+		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, #{step}, #{parentBoardNo})
 	</insert>
 	
 	<!-- deleteArticle -->
@@ -110,7 +104,8 @@ create sequence chococo_community_seq START WITH 1 MINVALUE 0;
 	where parentBoardNo = (select * from chococo_community where boardNo = #{boardNo}) 
 	start with parentBoardNo is null connect by prior boardNo = parentBoardNo -->
 	<select id="articleChild" resultType="CommunityVO">
-		select LPAD('　', 8*(step-1)) || title title, content, step, categoryNo, boardNo, parentBoardNo, writer, regDate from chococo_community 
+		select LPAD('　', 8*(step-1)) || title title, content, step, categoryNo, boardNo, parentBoardNo, writer, regDate 
+		from chococo_community 
 		where parentBoardNo = (select boardNo from chococo_community where boardNo = #{boardNo}) 
 		start with parentBoardNo is null connect by prior boardNo = parentBoardNo
 	</select>

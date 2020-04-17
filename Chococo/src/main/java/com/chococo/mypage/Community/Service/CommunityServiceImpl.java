@@ -63,11 +63,6 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public void insertParentArticle(CommunityVO article) {
-		community.insertParentArticle(article);
-	}
-
-	@Override
 	public List<CommunityVO> mypageSearchArticle(HashMap<String, Object> map) {
 		return community.mypageSearchArticle(map);
 	}

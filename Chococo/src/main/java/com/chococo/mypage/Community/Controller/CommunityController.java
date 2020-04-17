@@ -157,8 +157,10 @@ public class CommunityController {
 		//1. DB로 집어넣기.
 		//2020.03.17 parentBoardNo에 값이 있을 경우 답글 게시글이란 의미니까 if문으로 구별할 것.
 		if(article.getParentBoardNo() != 0 ) {
-			community.insertParentArticle(article);
+			article.setStep(2);
+			community.insertArticle(article);
 		} else {
+			article.setStep(1);
 			community.insertArticle(article);
 		}
 		

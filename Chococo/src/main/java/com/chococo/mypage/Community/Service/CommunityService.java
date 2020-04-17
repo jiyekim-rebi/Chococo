@@ -25,8 +25,6 @@ public interface CommunityService {
 	public List<CommunityVO> articleChild(CommunityVO article);
 	//답글 개수 체크 후 boardView에 출력하는지 아닌지 체크할꺼임.
 	public int articleChildCount(CommunityVO article);
-	//게시글 답글 달기
-	public void insertParentArticle(CommunityVO article);
 	//mypage - 내가 쓴 글 모아보기
 	public List<CommunityVO> mypageSearchArticle(HashMap<String, Object> map);
 	//mypage - pageMaker를 위한 게시글 수 체크

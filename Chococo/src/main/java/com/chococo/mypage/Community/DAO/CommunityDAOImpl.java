@@ -63,11 +63,6 @@ public class CommunityDAOImpl implements CommunityDAO {
 	}
 
 	@Override
-	public void insertParentArticle(CommunityVO article) {
-		session.insert("Chococo.community.insertParentArticle", article);
-	}
-
-	@Override
 	public List<CommunityVO> mypageSearchArticle(HashMap<String, Object> map) {
 		return session.selectList("Chococo.community.mypageSearchArticle", map);
 	}

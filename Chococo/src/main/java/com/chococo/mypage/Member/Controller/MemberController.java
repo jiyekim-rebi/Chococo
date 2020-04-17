@@ -73,7 +73,7 @@ public class MemberController {
 
 		//1. 입력한 정보가 db에 실제로 존재하는지, 아닌지.
 		//2. DB에 없을 경우 로그인 실패로 안내.
-		//3. 입력한 정보가 등록되어 있을 경우 session에 member란 이름으로 저장. 저장한 후 main으로 redirect를 해버리게 되면 오른쪽 상단 버튼 바뀜.
+		//3. 입력한 정보가 등록되어 있을 경우 session에 isLogin이란 이름으로 저장. 저장한 후 main으로 redirect를 해버리게 되면 오른쪽 상단 버튼 바뀜.
 		MemberVO search = service.searchMemberByLogin(login);
 
 		if(search == null) {
@@ -193,7 +193,7 @@ public class MemberController {
 					public void prepare(MimeMessage mimeMessage) throws Exception {
 						//true = html 사용할꺼임.
 						final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-						helper.setFrom("rebianne03@naver.com");
+						helper.setFrom("rebianne03@gmail.com");
 						helper.setTo(member.getUserEmail());
 						helper.setSubject(" * Chococo - 임시 비밀번호 안내 * ");
 						helper.setText(passwordSetting(member), true);

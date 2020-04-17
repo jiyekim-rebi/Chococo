@@ -42,7 +42,8 @@ select
 <select id="searchReplyAll" parameterType="hashmap" resultType="ReplyVO">
 	select * from 
 	(
-		select row_number() over (order by boardNo asc) as rnum, replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter 
+		select row_number() over (order by boardNo asc) as rnum, replyNo, boardNo, parentReplyNo, 
+		step, content, writer, regDate, parentReplyNoWriter 
 		from chococo_reply where boardNo = #{article.boardNo}
 		start with parentReplyNo is null connect by prior replyNo = parentReplyNo
 	)
