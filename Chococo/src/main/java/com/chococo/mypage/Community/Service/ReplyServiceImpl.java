@@ -27,11 +27,6 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void parentNewReply(ReplyVO replyVO) {
-		replyDAO.parentNewReply(replyVO);
-	}
-
-	@Override
 	public void deleteReply(ReplyVO replyVO) {
 		replyDAO.deleteReply(replyVO);
 	}
@@ -49,6 +44,11 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int mypageReplyCount(ReplyVO reply) {
 		return replyDAO.mypageReplyCount(reply);
+	}
+
+	@Override
+	public void modifyReply(ReplyVO reply) {
+		replyDAO.modifyReply(reply);
 	}
 
 }

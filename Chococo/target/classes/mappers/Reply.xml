@@ -71,18 +71,23 @@ select
 <!-- 첫번째 댓글, 완전 새로 다는 댓글 -->
 <insert id="newReply">
 	insert into chococo_reply (replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter) 
-	values (chococo_reply_seq.nextval, #{boardNo}, null, 1, #{content}, #{writer}, sysdate, null)
-</insert>
-
-<!-- 부모 댓글 번호를 가지고 있는 댓글 추가 -->
-<insert id="parentNewReply">
-	insert into chococo_reply (replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter) 
-	values (chococo_reply_seq.nextval, #{boardNo}, #{parentReplyNo}, 2, #{content}, #{writer}, sysdate, #{parentReplyNoWriter})
+	values (chococo_reply_seq.nextval, #{boardNo}, 
+	<if test="parentReplyNo == 0">
+		null, 1, #{content}, #{writer}, sysdate, null)
+	</if>
+	<if test="parentReplyNo != 0">
+		#{parentReplyNo}, 2, #{content}, #{writer}, sysdate, #{parentReplyNoWriter})
+	</if>
 </insert>
 
 <!-- 댓글 삭제(단일댓글) -->
 <delete id="deleteReply">
 	delete from chococo_reply where replyNo = #{replyNo}
 </delete>
+
+<!-- 댓글 수정(replyNo) -->
+<update id="modifyReply">
+	update chococo_reply set content= #{content} where replyNo = #{replyNo}
+</update>
 
 </mapper>

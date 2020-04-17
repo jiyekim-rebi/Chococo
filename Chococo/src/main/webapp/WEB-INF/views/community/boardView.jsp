@@ -118,18 +118,34 @@
 						<c:if test="${reply.step == 2}">
 							<i class="fas fa-angle-double-right" style="color: #e95420; padding-left: 20px; padding-right: 10px;"></i><strong>[${reply.parentReplyNoWriter}]</strong>
 						</c:if>
-						<pre>${reply.content}</pre>
+						<div><pre>${reply.content}</pre></div>
+					</div>
+					<!-- 수정 form on/off -->
+					<div class="col-md-8" style="display: none;">
+					<form>
+						<input type="hidden" name="replyNo" value="${reply.replyNo }">
+						<input type="hidden" name="boardNo" value="${reply.boardNo }">
+						<textarea class="form-control" name="content" rows="5" style="resize: none;" required>${reply.content}</textarea>
+					</form>
 					</div>
 					<div class="col-md-4" align="right">
 						<!-- 로그인 한 사람이 쓴 리플일 경우 리플 삭제, 리플 수정 버튼 활성화 시킬 것. -->
 						<div style="padding-top: 5px;">
 							<!-- 로그인된 계정의 userName과 댓글 작성자가 동일할 경우 게시글 modify, delete 활성화. -->					
 							<c:if test="${isLogin.userName == reply.writer}">
-								<button type="button" class="btn btn-warning replyModifyCtr">댓글수정</button>
+								<button type="button" class="btn btn-warning replyModifyOn">댓글수정</button>
+								<input type="hidden" value="${reply.content }">
 							</c:if>	
 							<c:if test="${isLogin.userName == reply.writer || adminCheck != null}">
 								<button type="button" class="btn btn-danger" onClick="replyDelete('${reply.replyNo}', '${articleView.boardNo }')">댓글삭제</button>
 							</c:if>
+						</div>
+					</div>
+					<!-- 버튼 똑딱이 -->
+					<div class="col-md-4" align="right" style="display: none;">
+						<div style="padding-top: 5px;">
+							<button type="button" class="btn btn-success replyModifyCtr">수정완료</button>
+							<button type="button" class="btn btn-danger replyModifyOff">수정취소</button>
 						</div>
 					</div>
 				</div>

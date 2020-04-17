@@ -91,7 +91,13 @@ create sequence chococo_community_seq START WITH 1 MINVALUE 0;
 	<!-- insertArticle -->
 	<insert id="insertArticle">
 		insert into chococo_community (categoryNo, boardNo, title, content, writer, regDate, step, parentBoardNo) 
-		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, #{step}, #{parentBoardNo})
+		values (#{categoryNo}, chococo_community_seq.nextval, #{title}, #{content}, #{writer}, sysdate, 
+		<if test="parentBoardNo == 0">
+			1, null)
+		</if>
+		<if test="parentBoardNo != 0">
+			2, #{parentBoardNo})
+		</if>		
 	</insert>
 	
 	<!-- deleteArticle -->

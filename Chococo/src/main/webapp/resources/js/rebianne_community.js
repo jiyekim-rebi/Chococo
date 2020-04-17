@@ -75,6 +75,30 @@ $(document).ready(function(){
 		
 	});
 	
+	//리플 수정창 on
+	$(".replyModifyOn").click(function(){
+		$(this).parent().parent().next().show();
+		$(this).parent().parent().prev().show();
+		$(this).parent().parent().prev().prev().hide();
+		$(this).parent().parent().hide();
+	});
+	
+	//리플 수정창 off
+	$(".replyModifyOff").click(function(){
+		$(this).parent().parent().prev().show();
+		$(this).parent().parent().prev().prev().prev().show();
+		$(this).parent().parent().prev().prev().hide();
+		$(this).parent().parent().hide();
+	});
+	
+	//리플 수정 Controller
+	$(".replyModifyCtr").click(function(){
+		var formObj = $(this).parent().parent().prev().prev().children();
+		formObj.attr("method", "post");
+		formObj.attr("action", "/chococo/community/modifyReply");
+		formObj.submit();
+	});
+	
 	//2020.03.14
 	//append로 class 명 지정하면 들어가기는 하는데 이벤트 발생이 안되서. 이렇게 처리.
 	//parentReply 댓글 form ON

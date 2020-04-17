@@ -28,11 +28,6 @@ public class ReplyDAOImpl implements ReplyDAO {
 	}
 
 	@Override
-	public void parentNewReply(ReplyVO replyVO) {
-		session.insert("Chococo.reply.parentNewReply", replyVO);
-	}
-
-	@Override
 	public void deleteReply(ReplyVO replyVO) {
 		session.delete("Chococo.reply.deleteReply", replyVO);
 	}
@@ -50,6 +45,11 @@ public class ReplyDAOImpl implements ReplyDAO {
 	@Override
 	public int mypageReplyCount(ReplyVO reply) {
 		return session.selectOne("Chococo.reply.mypageReplyCount", reply);
+	}
+
+	@Override
+	public void modifyReply(ReplyVO reply) {
+		session.update("Chococo.reply.modifyReply", reply);
 	}
 
 

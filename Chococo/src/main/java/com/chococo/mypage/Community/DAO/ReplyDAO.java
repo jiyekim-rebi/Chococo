@@ -12,12 +12,12 @@ public interface ReplyDAO {
 	public int replyCount(int boardNo);
 	//새 리플 등록하기
 	public void newReply(ReplyVO replyVO);
-	//댓글 답글 등록하기
-	public void parentNewReply(ReplyVO replyVO);
 	//댓글 삭제하기
 	public void deleteReply(ReplyVO replyVO);
 	//mypage - userName으로 등록된 모든 댓글 조회(페이징 처리)
 	public List<ReplyVO> mypageSearchReplyAll(HashMap<String, Object> reply);
 	//mypage - userName으로 등록된 모든 댓글 갯수
 	public int mypageReplyCount(ReplyVO reply);
+	//댓글 내용 수정
+	public void modifyReply(ReplyVO reply);
 }
