@@ -196,6 +196,15 @@ public class AdminController {
 		logger.info("ProductDelete - mainCategory : " + product.getMainCategory() + ", productNo - "+ product.getProductNo());
 		
 		try {
+			/*
+			2020.04.16 보충
+			상품 삭제하기 전 review에 등록되어있는 해당 상품의 리뷰 먼저 제거할 것.
+			원래라면 외부키 설정하고 on delete cascade 세팅 해놓으면 자동적으로 지워지지만
+			현재 상품 DB는 메인 카테고리별로 4개로 나뉘어 있는데 리뷰 DB는 한개만 존재함.
+			외래키로 묶을 수가 없어서(productNo가 겹칠 수 있음) 일단 분할하는 쪽으로 구현함.
+			리뷰도 DB 나눌지 생각해봐요 :)
+			 */
+			admin.productReviewDelete(product);
 			admin.productDelete(product);
 			model.addAttribute("msg", "상품이 정상적으로 삭제되었습니다.");
 		} catch (Exception e) {

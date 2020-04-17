@@ -37,11 +37,6 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void deleteReplyByBoard(ReplyVO replyVO) {
-		replyDAO.deleteReplyByBoard(replyVO);
-	}
-
-	@Override
 	public List<ReplyVO> searchReplyAll(HashMap<String, Object> map) {
 		return replyDAO.searchReplyAll(map);
 	}

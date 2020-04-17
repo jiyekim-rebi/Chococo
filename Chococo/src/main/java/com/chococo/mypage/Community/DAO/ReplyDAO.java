@@ -16,8 +16,6 @@ public interface ReplyDAO {
 	public void parentNewReply(ReplyVO replyVO);
 	//댓글 삭제하기
 	public void deleteReply(ReplyVO replyVO);
-	//게시글 삭제 시 등록된 댓글들 다 지워버림
-	public void deleteReplyByBoard(ReplyVO replyVO);
 	//mypage - userName으로 등록된 모든 댓글 조회(페이징 처리)
 	public List<ReplyVO> mypageSearchReplyAll(HashMap<String, Object> reply);
 	//mypage - userName으로 등록된 모든 댓글 갯수

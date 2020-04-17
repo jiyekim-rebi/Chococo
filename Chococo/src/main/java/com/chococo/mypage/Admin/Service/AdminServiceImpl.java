@@ -158,4 +158,9 @@ public class AdminServiceImpl implements AdminService {
 		return admin.adminCouponCheck(coupon);
 	}
 
+	@Override
+	public void productReviewDelete(ProductVO product) throws Exception {
+		admin.productReviewDelete(product);
+	}
+
 }

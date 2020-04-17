@@ -156,4 +156,9 @@ public class AdminDAOImpl implements AdminDAO {
 		return session.selectOne("Chococo.admin.adminCouponCheck", coupon);
 	}
 
+	@Override
+	public void productReviewDelete(ProductVO product) throws Exception {
+		session.delete("Chococo.admin.productReviewDelete", product);
+	}
+
 }

@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 
 create table chococo_reply (
-	replyNo number not null, //리플 번호
-	boardNo number not null, //리플이 달린 게시글의 번호
-	parentReplyNo number, //리플의 답리플이 달린 경우. 몇번 리플에 리플답글 달렸니
-	step number default 1, //1번째 답리플, 2번째 답리플 등등
+	replyNo number not null,
+	boardNo number not null,
+	parentReplyNo number,
+	step number default 1,
 	content clob,
 	writer VARCHAR2(100) not null,
 	regDate DATE DEFAULT SYSDATE,
     parentReplyNoWriter VARCHAR2(100),
 	primary key(replyNo),
-	Constraint Reply_FK foreign key(boardNo) references chococo_community(boardNo)
+	Constraint Reply_FK foreign key(boardNo) references chococo_community(boardNo) on delete cascade
 );
 create sequence chococo_reply_seq START WITH 1 MINVALUE 0;
 replyNo = chococo_reply_seq.nextval
@@ -84,8 +84,4 @@ select
 	delete from chococo_reply where replyNo = #{replyNo}
 </delete>
 
-<!-- 게시글을 삭제할때 리플도 같이 지워지게.-->
-<delete id="deleteReplyByBoard">
-	delete from chococo_reply where boardNo = #{boardNo}
-</delete>
 </mapper>

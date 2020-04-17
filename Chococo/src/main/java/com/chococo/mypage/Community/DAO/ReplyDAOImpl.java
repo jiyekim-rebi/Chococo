@@ -38,11 +38,6 @@ public class ReplyDAOImpl implements ReplyDAO {
 	}
 
 	@Override
-	public void deleteReplyByBoard(ReplyVO replyVO) {
-		session.delete("Chococo.reply.deleteReplyByBoard", replyVO);
-	}
-
-	@Override
 	public List<ReplyVO> searchReplyAll(HashMap<String, Object> map) {
 		return session.selectList("Chococo.reply.searchReplyAll", map);
 	}

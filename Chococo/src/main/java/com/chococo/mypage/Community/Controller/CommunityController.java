@@ -171,15 +171,13 @@ public class CommunityController {
 	}
 		
 	//게시글 삭제 - POST
-	//2020.03.14 게시글 삭제 전 게시글에 달려있는 댓글들 먼저 지움.
+	//2020.03.14 게시글 삭제 전 게시글에 달려있는 댓글들 먼저 지움. - DB로 처리
 	@RequestMapping(value="/deleteArticle", method=RequestMethod.POST)
 	public String deleteArticle(Model model, CommunityVO article, ReplyVO replyVO) throws Exception {
 		logger.info("1. deleteArticle - article : " + article.toString());
 		logger.info("2. deleteArticle - reply : " + replyVO.toString());
 		
-		//1. 댓글 먼저 지운다
-		reply.deleteReplyByBoard(replyVO);
-		//2. 댓글 지우고 나서 게시글을 지움
+		//게시글 삭제
 		community.deleteArticle(article);
 		
 		model.addAttribute("msg", "게시글을 삭제하였습니다.");
@@ -190,14 +188,12 @@ public class CommunityController {
 	
 	//게시글 삭제 - GET
 	//2020.03.19 logger가 두개 찍히는 걸 보아하니 뭔가 꼬인듯 해서 일단 나눔.
+	//2020.04.16 url 차이때문에 컨트롤러를 두개로 나눠놓기는 했는데 하나로 합칠 순 없나?
 	@RequestMapping(value="/mypageDeleteArticle", method=RequestMethod.GET)
 	public String mypageDeleteArticle(Model model, CommunityVO article, ReplyVO replyVO) throws Exception {
 		logger.info("1. mypageDeleteArticle - article : " + article.toString());
 		logger.info("2. mypageDeleteArticle - reply : " + replyVO.toString());
 		
-		//댓글 삭제 먼저
-		reply.deleteReplyByBoard(replyVO);
-		//그다음 게시글 삭제
 		community.deleteArticle(article);
 		
 		model.addAttribute("msg", "게시글을 삭제하였습니다.");

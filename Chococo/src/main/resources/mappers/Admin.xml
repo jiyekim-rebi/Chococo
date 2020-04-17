@@ -65,6 +65,10 @@ create table chococo_coupon (
 	delete from <include refid="mainCategoryName"/> where productNo = #{productNo}
 </delete>
 
+<!-- 2020.04.16 productReviewDelete -->
+<delete id="productReviewDelete">
+	delete from chococo_market_review where mainCategory = #{mainCategory} and productNo = #{productNo}
+</delete>
 
 
 

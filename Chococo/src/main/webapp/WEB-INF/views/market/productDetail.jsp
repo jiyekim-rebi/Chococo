@@ -97,7 +97,7 @@
 	
 	<div class="tab-content" id="myTabContent">
 		<div class="tab-pane fade active show" id="detailView">
-			<div>${product.content}</div>
+			<div align="center">${product.content}</div>
 		</div>
 		
 		<div class="tab-pane fade" id="shippingInfo" align="center">

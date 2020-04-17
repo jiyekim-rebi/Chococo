@@ -71,4 +71,7 @@ public interface AdminDAO {
 	//쿠폰 중복여부 체크
 	public int adminCouponCheck(CouponVO coupon) throws Exception;
 	
+	//2020.04.16 상품삭제시 리뷰도 같이 제거
+	public void productReviewDelete(ProductVO product) throws Exception;
+	
 }

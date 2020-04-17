@@ -14,12 +14,6 @@ parentBoardNo number,
 PRIMARY KEY(boardNo) 
 );
 create sequence chococo_community_seq START WITH 1 MINVALUE 0;
-insert할때 boardNo = chococo_community_seq.nextval
-
-
-//Community, reply 부분 분할해서 나눠야 함.
-https://mine-it-record.tistory.com/167
-
 -->
 <mapper namespace="Chococo.community">
 
@@ -27,17 +21,12 @@ https://mine-it-record.tistory.com/167
 	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()"> TITLE LIKE '%' || #{keyword} || '%'</if>
-			<!-- 2020.04.02 이거 long 타입이라 수정해야함!!! --><if test="searchType == 'c'.toString()"> CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()"> CONTENT LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()"> WRITER LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'tc'.toString()"> (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%') </if>
 		</if>
 	</sql>
 
-	<!-- 
-	게시글 불러오기 - 
-	categoryNo 1 = CommunityNotice 2 = Lecture 3 = DIY MarketPlace 4 = FreeTalk 
-	-->
-	
 	<!--
 	2020.03.17
 	1. 일단 list에선 답글은 따로 나오게 하지 않음
