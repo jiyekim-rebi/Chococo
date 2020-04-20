@@ -17,7 +17,6 @@ create sequence chococo_community_seq START WITH 1 MINVALUE 0;
 -->
 <mapper namespace="Chococo.community">
 
-	<!-- 작성자, 내용, 제목과 검색 키워드 부분이니 수정할 필요 없음. -->
 	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()"> TITLE LIKE '%' || #{keyword} || '%'</if>
@@ -33,7 +32,8 @@ create sequence chococo_community_seq START WITH 1 MINVALUE 0;
 	2. 근데 search 돌릴땐 답글도 나오게 돌림.
 	-->
 	<select id="searchArticle" resultType="CommunityVO">
-	select * from (select row_number() over (order by regdate desc) as rnum, boardNo, title, content, writer, regdate, step from chococo_community where 
+	select * from (select row_number() over (order by regdate desc) as rnum, boardNo, title, content, writer, regdate, step 
+	from chococo_community where 
 		<if test="searchType == '' and keyword == ''">
 		categoryNo = #{categoryNo} and step = 1) where rnum between #{rowStart} and #{rowEnd}
 		</if>

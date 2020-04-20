@@ -174,6 +174,32 @@ public class AdminController {
 		return "admin/productList";
 	}
 	
+	//상품 판매 on/off
+	@RequestMapping(value="/market/productStatusUpdate", method=RequestMethod.POST)
+	public String productStatusUpdate(Model model, ProductVO product) throws Exception {
+		logger.info("productStatusUpdate - mainCategory : " + product.getMainCategory() +
+					", productNo - "+ product.getProductNo() + ", productStatus - " + product.getProductStatus());
+			
+		//Controller에 올 때 마다 상품 판매 상태가 반전되어 update되어야 함.
+		if(product.getProductStatus() == 0) {
+			product.setProductStatus(1);
+		} else {
+			product.setProductStatus(0);
+		}
+		
+		try {
+			admin.productStatusUpdate(product);
+			model.addAttribute("msg", "상품 판매상태를 업데이트 했습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("msg", "시스템 오류가 발생했습니다.");
+		}
+			
+		model.addAttribute("url", "/chococo/admin/productList");
+
+		return "include/Result";
+	}
+	
 	//등록된 상품 상세보기 view
 	@RequestMapping(value="/productView", method=RequestMethod.GET)
 	public String productView(Model model, PageCriteria cri, ProductVO product) throws Exception {
@@ -190,32 +216,6 @@ public class AdminController {
 		return "admin/productView";
 	}
 	
-	//상품 삭제하기
-	@RequestMapping(value="/market/productDelete", method=RequestMethod.POST)
-	public String productDelete(Model model, ProductVO product) throws Exception {
-		logger.info("ProductDelete - mainCategory : " + product.getMainCategory() + ", productNo - "+ product.getProductNo());
-		
-		try {
-			/*
-			2020.04.16 보충
-			상품 삭제하기 전 review에 등록되어있는 해당 상품의 리뷰 먼저 제거할 것.
-			원래라면 외부키 설정하고 on delete cascade 세팅 해놓으면 자동적으로 지워지지만
-			현재 상품 DB는 메인 카테고리별로 4개로 나뉘어 있는데 리뷰 DB는 한개만 존재함.
-			외래키로 묶을 수가 없어서(productNo가 겹칠 수 있음) 일단 분할하는 쪽으로 구현함.
-			리뷰도 DB 나눌지 생각해봐요 :)
-			 */
-			admin.productReviewDelete(product);
-			admin.productDelete(product);
-			model.addAttribute("msg", "상품이 정상적으로 삭제되었습니다.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("msg", "상품을 삭제할 수 없습니다.");
-		}
-		
-		model.addAttribute("url", "/chococo/admin/productList");
-
-		return "include/Result";
-	}
 	
 	//Shipping Main
 	@RequestMapping(value="/shipping", method={RequestMethod.GET, RequestMethod.POST})
@@ -396,13 +396,19 @@ public class AdminController {
 		if(member.getUserName() != null) {
 			try {
 				MemberVO select = admin.memberSelectResult(member);
-				if(select.getIsAdmin() == 1) {
-					//같은 admin은 검색조차 안되게 튕겨버릴 것.
-					model.addAttribute("msg", "같은 admin은 검색하실 수 없습니다.");
+				if(select != null) {
+					if(select.getIsAdmin() == 1) {
+						//같은 admin은 검색조차 안되게 튕겨버릴 것.
+						model.addAttribute("msg", "같은 admin은 검색하실 수 없습니다.");
+						model.addAttribute("url", "/chococo/admin/memberList");
+						return "include/Result";
+					} else {
+						model.addAttribute("member", select);
+					}
+				} else {
+					model.addAttribute("msg", "검색된 회원이 없습니다.");
 					model.addAttribute("url", "/chococo/admin/memberList");
 					return "include/Result";
-				} else {
-					model.addAttribute("member", select);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -23,8 +23,8 @@ public interface AdminService {
 	public ProductVO productView(Map<String, Object> setting) throws Exception;
 	//productModify
 	public void productModify(ProductVO product) throws Exception;
-	//productDelete
-	public void productDelete(ProductVO product) throws Exception;
+	//상품 판매가능, 불가능 update
+	public void productStatusUpdate(ProductVO product) throws Exception;
 	
 	//shipping - orderNo에 따른 select
 	public List<BasketVO> shippingList(String shippingStatus) throws Exception;
@@ -71,8 +71,5 @@ public interface AdminService {
 	public int adminCouponCount() throws Exception;
 	//쿠폰 중복여부 체크
 	public int adminCouponCheck(CouponVO coupon) throws Exception;
-	
-	//2020.04.16 상품삭제시 리뷰도 같이 제거
-	public void productReviewDelete(ProductVO product) throws Exception;
 	
 }

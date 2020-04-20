@@ -31,10 +31,6 @@ create table chococo_member_coupon (
  -->
 <mapper namespace="Chococo.member">
 
-<sql id="selectAll">
-	SELECT * FROM CHOCOCO_MEMBER
-</sql>
-
 <!-- 회원가입 -->
 <insert id="create">
 	INSERT INTO CHOCOCO_MEMBER (userName, userEmail, userPass, birth_year, birth_month, birth_day, sex, address)
@@ -44,7 +40,7 @@ create table chococo_member_coupon (
 <!-- 로그인 : 등록되어 있는 정보가 있는지 체크 -->
 <!-- 나중에 세션 등록용으로도 사용. -->
 <select id="searchMemberByLogin" resultType="MemberVO">
-	<include refid="selectAll"/> WHERE userEmail = #{userEmail}
+	SELECT * FROM CHOCOCO_MEMBER WHERE userEmail = #{userEmail}
 </select>
 
 <!-- 회원탈퇴 from mypage -->

@@ -20,7 +20,7 @@
 			<div class="tab-content " id="myTabContent">
 				<div class="tab-pane fade active show" id="MemberInfo">
 				<h2 class="text-primary" style="margin: 60px 30px;">내 정보</h2>
-					<div class="container" style="margin-top: 100px;">
+					<div class="container" style="margin-top: 100px; padding-bottom: 120px;">
     					<div class="row" style="margin-bottom: 50px;">
     						<div class="col-md-6">
     							<div class="row">
@@ -65,7 +65,7 @@
       							</div>
       						</div>
     					</div>
-    					<div class="row" style="margin-bottom: 50px;">
+    					<div class="row" style="margin-bottom: 150px;">
     						<div class="col-md-6">
     							<div class="row">
       								<h4 class="col-md-3 text-primary">가입일자</h4>
@@ -190,7 +190,7 @@
 					</c:if>
 					
 					<c:if test="${myPage_passCheck == null}">
-						<div class="container" style="margin-top: 100px;">
+						<div class="container" style="margin-top: 100px; padding-bottom: 130px;">
 							<div class="row">
     							<div class="center-block" style="margin: 0 auto; padding-bottom: 30px; color: green;">
     								<i class="fas fa-check-square fa-4x"></i>
@@ -244,15 +244,12 @@
     						</div>
     					</div>
     					<div class="row">
-    						<div class="center-block" style="margin: 0 auto; padding-top: 30px;">
+    						<div class="center-block" style="margin: 0 auto; padding-top: 30px; padding-bottom: 100px;">
     							<input type="button" value="탈퇴하기" class="nav_deleteMember btn btn-warning">		
     						</div>
     					</div>
 					</div>
 				</div>
-				
-				
-				
 			</div>
 		</div>
 	</div>

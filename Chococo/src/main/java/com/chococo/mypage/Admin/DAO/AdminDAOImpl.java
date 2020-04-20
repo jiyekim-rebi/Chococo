@@ -47,9 +47,10 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public void productDelete(ProductVO product) throws Exception {
-		session.delete("Chococo.admin.productDelete", product);
+	public void productStatusUpdate(ProductVO product) throws Exception {
+		session.update("Chococo.admin.productStatusUpdate", product);
 	}
+	
 
 	@Override
 	public List<BasketVO> shippingList(String shippingStatus) throws Exception {
@@ -156,9 +157,6 @@ public class AdminDAOImpl implements AdminDAO {
 		return session.selectOne("Chococo.admin.adminCouponCheck", coupon);
 	}
 
-	@Override
-	public void productReviewDelete(ProductVO product) throws Exception {
-		session.delete("Chococo.admin.productReviewDelete", product);
-	}
+	
 
 }

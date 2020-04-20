@@ -80,11 +80,11 @@ $(document).ready(function(){
 		formObj.submit();
 	});
 	
-	//productDelete - controller
-	$(".adminProductDeleteCtr").click(function(){
-		var formObj = $("form[name='adminProductDeleteForm']");
+	//productStatusUpdate - controller
+	$(".adminProductStatusUpdateCtr").click(function(){
+		var formObj = $("form[name='adminProductStatusUpdateForm']");
 		formObj.attr("method", "post");
-		formObj.attr("action", "/chococo/admin/market/productDelete");
+		formObj.attr("action", "/chococo/admin/market/productStatusUpdate");
 		formObj.submit();
 	});
 	
@@ -114,6 +114,8 @@ $(document).ready(function(){
 		formObj.attr("action", "/chococo/admin/order/orderModify");
 		formObj.submit();
 	});
+	
+	
 	
 	//트래킹번호 업데이트
 	$(".settingTrackingNum").click(function(){

@@ -68,7 +68,9 @@
 				<h3 class="text-danger" id="totalPrice">총 결제금액 : ${product.price} 원</h3>
 			</div>
 			
+			
 			<div class="row" style="padding-top: 30px;">
+				<c:if test="${product.productStatus == 1 }">
 				<div class="col-md-6" align="center">
 					<form name="purchaseProductForm">
 						<input type="hidden" name="price" value="${product.price }">
@@ -82,6 +84,12 @@
 				<div class="col-md-6" align="center">
 					<input class="btn btn-warning basketAddProduct" style="width: 100%; height: 150%;" type="button" value="장바구니담기">
 				</div>
+				</c:if>
+				<c:if test="${product.productStatus == 0 }">
+				<div style="margin-top: 50px;">
+					<h5 class="text-danger">판매 중단된 상품입니다.</h5>
+				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>

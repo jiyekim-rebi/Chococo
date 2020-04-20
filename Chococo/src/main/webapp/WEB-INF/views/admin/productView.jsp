@@ -62,16 +62,23 @@
 		<div class="row" style="margin-top: 50px; margin-bottom: 100px;">
 			<div class="center-block" style="margin: 0 auto;">
 				<input type="button" class="btn btn-success adminProductModifyOnOff" value="상품 수정하기">
-				<input type="button" class="btn btn-warning adminProductDeleteCtr" value="상품 삭제하기">
+				<c:if test="${product.productStatus == 1 }">
+					<input type="button" class="btn btn-danger adminProductStatusUpdateCtr" value="판매중단하기">
+				</c:if>
+				<c:if test="${product.productStatus == 0 }">
+					<input type="button" class="btn btn-warning adminProductStatusUpdateCtr" value="상품 판매하기">
+				</c:if>
 				<input type="button" class="btn btn-info adminProductBackToList" value="Back To List">
 				<form name="adminBackToListForm">
 					<input type="hidden" name="mainCategory" value="${cri.mainCategory }">
 					<input type="hidden" name="keyword" value="${cri.keyword}">
 				</form>
-				<form name="adminProductDeleteForm">
+				<form name="adminProductStatusUpdateForm">
 					<input type="hidden" name="mainCategory" value="${cri.mainCategory}">
 					<input type="hidden" name="productNo" value="${product.productNo }">
+					<input type="hidden" name="productStatus" value="${product.productStatus }">
 				</form>
+
 			</div>
 		</div>
 	</div>

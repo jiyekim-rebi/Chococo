@@ -57,20 +57,13 @@ create table chococo_coupon (
 <update id="productModify">
 	update <include refid="mainCategoryName"/> set productName = #{productName}, price = #{price}, 
 	subCategory = #{subCategory}, selectOption = #{selectOption}, content = #{content}, imageFileName = #{imageFileName}
-	where productNo = ${productNo}
+	where productNo = #{productNo}
 </update>
 
-<!-- productDelete -->
-<delete id="productDelete">
-	delete from <include refid="mainCategoryName"/> where productNo = #{productNo}
-</delete>
-
-<!-- 2020.04.16 productReviewDelete -->
-<delete id="productReviewDelete">
-	delete from chococo_market_review where mainCategory = #{mainCategory} and productNo = #{productNo}
-</delete>
-
-
+<!-- productStatusUpdate -->
+<update id="productStatusUpdate">
+	update <include refid="mainCategoryName"/> set productStatus = ${productStatus} where productNo = #{productNo}
+</update>
 
 
 <!-- shpping - 배송관리 -->
@@ -114,7 +107,7 @@ create table chococo_coupon (
 
 <!-- community notice List -->
 <select id="noticeList" resultType="CommunityVO">
-	select * from (select row_number() over (order by regdate) as rnum, boardNo, title, content, writer, regdate, step from chococo_community where
+	select * from (select row_number() over (order by regdate desc) as rnum, boardNo, title, content, writer, regdate, step from chococo_community where
 	<if test="keyword == ''">
 		categoryNo = 1) 
 	</if>

@@ -15,6 +15,8 @@ imageFileName varchar2(500),
 hit number default 0,
 subCategory number not null,
 content clob default '상품설명',
+mainCategory number default 1,
+productStatus number default 1
 primary key(productNo)
 );
 
@@ -22,13 +24,6 @@ create sequence chococo_market_first_seq START WITH 1 MINVALUE 0;
 create sequence chococo_market_second_seq START WITH 1 MINVALUE 0;
 create sequence chococo_market_third_seq START WITH 1 MINVALUE 0;
 create sequence chococo_market_fourth_seq START WITH 1 MINVALUE 0;
-
-//2020.04.06 mainCategory 필요함.
-alter table chococo_market_first add (mainCategory number default 1);
-alter table chococo_market_second add (mainCategory number default 2);
-alter table chococo_market_third add (mainCategory number default 3);
-alter table chococo_market_fourth add (mainCategory number default 4);
-
 
 (회원, 비회원 둘다 만들어야 함)
 mainCategory 번호는 쟁여놔야함. 여기는 db가 다르기때문에 productNo로도 구별할 수 없어.
@@ -108,15 +103,9 @@ create sequence chococo_market_order_seq start with 1000 minvalue 1000;
 	</if>
 </sql>
 
-<sql id="memberChecksql">
-	<if test="checkMember != null">
-		<if test="checkMember == 0">chococo_order_noMember</if>
-		<if test="checkMember == 1">chococo_order_member</if>
-	</if>
-</sql>
-
 <select id="selectListMainCategory" resultType="MarketVO">
-	select productNo, productName, price, imageFileName from <include refid="mainCategorySelect"/> where subCategory = #{subCategory} <include refid="subCategoryOrderBy"/>
+	select productNo, productName, price, imageFileName from <include refid="mainCategorySelect"/> 
+	where subCategory = #{subCategory} and productStatus = 1 <include refid="subCategoryOrderBy"/>
 </select>
 
 <!-- total of item -->
@@ -201,7 +190,8 @@ create sequence chococo_market_order_seq start with 1000 minvalue 1000;
 
 <!-- favorite mapper -->
 <select id="favoriteSearch" resultType="int">
-	select count(*) from chococo_market_favorite where userEmail = #{userEmail} and productNo = #{productNo} and mainCategory = #{mainCategory} and imageFileName = #{imageFileName}
+	select count(*) from chococo_market_favorite where userEmail = #{userEmail} 
+	and productNo = #{productNo} and mainCategory = #{mainCategory} and imageFileName = #{imageFileName}
 </select>
 
 <insert id="favoriteAdd">

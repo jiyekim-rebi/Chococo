@@ -64,7 +64,6 @@ public class MypageController {
 			if(pwdMatch == true) {
 				//session으로 설정할 경우 계속 남아있을거라서 한번 설정하고 redirect 될 경우 다시 인증받는 방향으로.
 				model.addAttribute("myPage_passCheck", "success");
-				return "mypage/main";
 			} else {
 				//로그인 한 당사자가 패스워드가 틀렸을 경우
 				model.addAttribute("msg", "입력하신 비밀번호가 다릅니다.");

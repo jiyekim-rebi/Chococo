@@ -67,6 +67,7 @@
 									<input type="hidden" name="userEmail" value="${order.userEmail}">
 									<input type="hidden" name="address" value="${order.address}">
 									<input type="hidden" name="imageFileName" value="${order.imageFileName }">
+									<input type="hidden" name="mainCategory" value="${order.mainCategory }">
 									<input type="button" class="btn btn-secondary mypageProductReOrder" value="상품 재구매">
 								</form>
 							</div>

@@ -166,6 +166,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	//리뷰 추가하기.
 	$(".reviewInsertCtr").click(function(){
 		var formObj = $(this).prev();
 		if(formObj.children("input[name='writer']").val() == ""){

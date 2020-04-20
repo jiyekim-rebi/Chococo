@@ -68,7 +68,7 @@ select
 	select count(*) from chococo_reply where writer = #{writer}
 </select>
 
-<!-- 첫번째 댓글, 완전 새로 다는 댓글 -->
+<!-- 댓글 추가하기 -->
 <insert id="newReply">
 	insert into chococo_reply (replyNo, boardNo, parentReplyNo, step, content, writer, regDate, parentReplyNoWriter) 
 	values (chococo_reply_seq.nextval, #{boardNo}, 

@@ -232,7 +232,7 @@ public class CommunityController {
 		return "include/Result";
 	}
 
-	//리플삭제
+	//deleteReply - POST
 	@RequestMapping(value="/deleteReply", method=RequestMethod.POST)
 	public String deleteReply(ReplyVO replyVO, CommunityVO article, Model model) throws Exception {
 		logger.info("deleteReply" + replyVO.toString());
@@ -249,7 +249,7 @@ public class CommunityController {
 		return "include/Result";
 	}
 	
-	//리플수정
+	//modifyReply - POST
 	@RequestMapping(value="/modifyReply", method=RequestMethod.POST)
 	public String modifyReply(ReplyVO replyVO, Model model) throws Exception {
 		logger.info(replyVO.toString());

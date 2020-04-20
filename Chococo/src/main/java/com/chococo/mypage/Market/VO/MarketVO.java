@@ -30,10 +30,8 @@ public class MarketVO {
 	private String content;
 	//2020.04.06 메인화면 출력 부분 때문에
 	private int mainCategory;
-	
-	
-	
-	
+	//2020.04.20 상품 판매중단/판매가능 업데이트 유무
+	private int productStatus;
 	
 
 	public int getMainCategory() {
@@ -135,13 +133,22 @@ public class MarketVO {
 		this.content = content;
 	}
 
+	public int getProductStatus() {
+		return productStatus;
+	}
+
+
+	public void setProductStatus(int productStatus) {
+		this.productStatus = productStatus;
+	}
+
 
 	@Override
 	public String toString() {
 		return "MarketVO [productNo=" + productNo + ", productName=" + productName + ", price=" + price
 				+ ", selectOption=" + selectOption + ", regDate=" + regDate + ", imageFileName=" + imageFileName
 				+ ", hit=" + hit + ", subCategory=" + subCategory + ", content=" + content + ", mainCategory="
-				+ mainCategory + "]";
+				+ mainCategory + ", productStatus=" + productStatus + "]";
 	}
-	
+
 }

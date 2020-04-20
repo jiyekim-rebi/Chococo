@@ -210,7 +210,7 @@ public class MarketController {
 		model.addAttribute("ratio", ratio);
 		
 		if(ratio > 0) {
-			totalPrice -= (totalPrice / ratio);
+			totalPrice -= totalPrice * (double)ratio/100;
 		}
 		
 		totalPrice += 3000;
@@ -390,9 +390,14 @@ public class MarketController {
 	public String reviewModify(ReviewVO review, Model model) throws Exception {
 		logger.info("reviewModify 데이터 체크 : " + review.toString());
 		
-		market.reviewModify(review);
+		try {
+			market.reviewModify(review);
+			model.addAttribute("msg", "작성하신 리뷰를 수정하였습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("msg", "오류가 발생했습니다. 시스템 관리자에게 문의하세요.");
+		}
 		
-		model.addAttribute("msg", "작성하신 리뷰를 수정하였습니다.");
 		model.addAttribute("url", "/chococo/market/productDetail?productNo=" + review.getProductNo() + "&mainCategory=" + review.getMainCategory());
 		
 		return "include/Result";
@@ -402,7 +407,13 @@ public class MarketController {
 	public String reviewDelete(ReviewVO review, Model model) throws Exception {
 		logger.info("reviewDelete 데이터 체크 : " + review.toString());
 		
-		market.reviewDelete(review);
+		try {
+			market.reviewDelete(review);
+			model.addAttribute("msg", "작성하신 리뷰를 수정하였습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("msg", "오류가 발생했습니다. 시스템 관리자에게 문의하세요.");
+		}
 		
 		model.addAttribute("msg", "작성하신 리뷰를 삭제하였습니다.");
 		model.addAttribute("url", "/chococo/market/productDetail?productNo=" + review.getProductNo() + "&mainCategory=" + review.getMainCategory());
@@ -413,8 +424,14 @@ public class MarketController {
 	@RequestMapping(value="/reviewInsert", method=RequestMethod.POST)
 	public String reviewInsert(ReviewVO review, Model model) throws Exception {
 		logger.info("reviewInsert 데이터 체크 : " + review.toString());
-		
-		market.reviewInsert(review);
+
+		try {
+			market.reviewInsert(review);
+			model.addAttribute("msg", "작성하신 리뷰를 수정하였습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("msg", "오류가 발생했습니다. 시스템 관리자에게 문의하세요.");
+		}
 		
 		model.addAttribute("msg", "리뷰가 등록되었습니다.");
 		model.addAttribute("url", "/chococo/market/productDetail?productNo=" + review.getProductNo() + "&mainCategory=" + review.getMainCategory());

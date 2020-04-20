@@ -49,8 +49,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void productDelete(ProductVO product) throws Exception {
-		admin.productDelete(product);
+	public void productStatusUpdate(ProductVO product) throws Exception {
+		admin.productStatusUpdate(product);
 	}
 
 	@Override
@@ -156,11 +156,6 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int adminCouponCheck(CouponVO coupon) throws Exception {
 		return admin.adminCouponCheck(coupon);
-	}
-
-	@Override
-	public void productReviewDelete(ProductVO product) throws Exception {
-		admin.productReviewDelete(product);
 	}
 
 }
