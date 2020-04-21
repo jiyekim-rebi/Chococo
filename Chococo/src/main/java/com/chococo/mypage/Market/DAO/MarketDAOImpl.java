@@ -116,4 +116,9 @@ public class MarketDAOImpl implements MarketDAO {
 		return session.selectList("Chococo.market.trandingProducts");
 	}
 
+	@Override
+	public int reviewProductCheck(ReviewVO review) throws Exception {
+		return session.selectOne("Chococo.market.reviewProductCheck", review);
+	}
+
 }

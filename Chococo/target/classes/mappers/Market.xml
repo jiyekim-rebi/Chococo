@@ -167,8 +167,12 @@ create sequence chococo_market_order_seq start with 1000 minvalue 1000;
 	(#{productNo}, chococo_market_review_seq.nextval, #{writer}, #{content}, sysdate, #{mainCategory}, #{productName})
 </insert>
 
-
-
+<!-- 2020.04.22 상품을 구입했는지 check -->
+<select id="reviewProductCheck" resultType="int">
+	select count(*) from chococo_market_order 
+	where userName = #{writer} and 
+	mainCategory = #{mainCategory} and productNo = #{productNo}
+</select>
 
 
 

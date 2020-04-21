@@ -472,6 +472,14 @@ public class MarketController {
 		market.favoriteDel(favorite);
 	}
 	
+	//2020.04.22 상품 구매자만 리뷰 작성할 수 있게 처리
+	@ResponseBody
+	@RequestMapping(value="/reviewProductCheck", method=RequestMethod.POST)
+	public int reviewProductCheck(ReviewVO review) throws Exception {
+		logger.info("상품 구매유무 확인 Data : " + review.toString());
+		return market.reviewProductCheck(review);
+	}
+	
 	/*
 	 * 
 	 * ------------------------------------------------

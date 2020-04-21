@@ -46,4 +46,7 @@ public interface MarketDAO {
 	public List<MarketVO> recommendProducts() throws Exception;
 	public List<MarketVO> newProducts() throws Exception;
 	public List<MarketVO> trandingProducts() throws Exception;
+	
+	//2020.04.22 상품 구매자만 리뷰 작성할 수 있게
+	public int reviewProductCheck(ReviewVO review) throws Exception;
 }

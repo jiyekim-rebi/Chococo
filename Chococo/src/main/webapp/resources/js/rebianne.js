@@ -137,7 +137,6 @@ $(document).ready(function(){
 	});
 	
 	//productDetail - 댓글 수정 on/off
-	//display: none;
 	$(".reviewFormOnOff").click(function(){
 		if($(".Rebi_reviewPrint").css("display") == "none"){
 			$(".Rebi_reviewPrint").show();
@@ -167,14 +166,33 @@ $(document).ready(function(){
 	});
 	
 	//리뷰 추가하기.
+	//2020.04.22 상품 구매자만 리뷰를 남길 수 있게 처리함.
 	$(".reviewInsertCtr").click(function(){
 		var formObj = $(this).prev();
 		if(formObj.children("input[name='writer']").val() == ""){
 			alert("비회원은 리뷰를 남기실 수 없습니다.");
 		} else {
-			formObj.attr("method", "post");
-			formObj.attr("action", "/chococo/market/reviewInsert");
-			formObj.submit();
+			$.ajax({
+				type:"post",
+				url:"/chococo/market/reviewProductCheck",
+				data:{
+					"mainCategory" : formObj.children("input[name='mainCategory']").val(),
+					"productNo": formObj.children("input[name='productNo']").val(),
+					"writer": formObj.children("input[name='writer']").val()
+				},
+				success: function(result){
+					if(result == 1){
+						formObj.attr("method", "post");
+						formObj.attr("action", "/chococo/market/reviewInsert");
+						formObj.submit();
+					} else {
+						alert("상품 구매자만 리뷰를 작성할 수 있습니다.");
+					}
+				},
+				error: function(){
+					alert("시스템 오류가 발생했습니다. 관리자에게 문의하세요.");
+				}
+			});
 		}
 	});
 	

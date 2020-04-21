@@ -40,13 +40,6 @@ public class ReviewVO {
 
 	}
 
-	@Override
-	public String toString() {
-		return "ReviewVO [productNo=" + productNo + ", boardNo=" + boardNo + ", writer=" + writer + ", content="
-				+ content + ", regDate=" + regDate + ", mainCategory=" + mainCategory + ", productName=" + productName
-				+ "]";
-	}
-
 	public int getProductNo() {
 		return productNo;
 	}
@@ -101,6 +94,12 @@ public class ReviewVO {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	@Override
+	public String toString() {
+		return "ReviewVO [productNo=" + productNo + ", boardNo=" + boardNo + ", writer=" + writer + ", regDate="
+				+ regDate + ", mainCategory=" + mainCategory + ", productName=" + productName + "]";
 	}
 
 	

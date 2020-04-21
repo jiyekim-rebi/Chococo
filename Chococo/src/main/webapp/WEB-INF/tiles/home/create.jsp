@@ -16,7 +16,8 @@
 			<label class="isChkEmail"><i class="fas fa-times text-danger" style="padding-right: 10px;"></i>이메일을 입력해주세요!</label>
 			
 			<br><label>Your Password</label>
-			<input class="form-control mb-2" name="userPass" placeholder="******" type="password">
+			<input class="form-control mb-2 isUserPasswordCheck" name="userPass" placeholder="******" type="password">
+			<label class="isChkPassword"><i class="fas fa-times text-danger" style="padding-right: 10px;"></i>영문, 숫자 조합으로 8-15글자여야 합니다!</label>
 			<label class="text-primary">Password Check, please</label>
 			<input class="form-control mb-2" name="userPassCheck" placeholder="******" type="password">
 
@@ -56,6 +57,7 @@
             <div class="form-group">
             	<input type="hidden" class="createNameOk" value="">
             	<input type="hidden" class="createEmailOk" value="">
+            	<input type="hidden" class="createPasswordOk" value="">
             	<button type="button" class="btn btn-primary btn-block createMemberDB">Sign up</button>
             </div>
             <div class="form-group">

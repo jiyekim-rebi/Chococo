@@ -108,9 +108,9 @@ public class CommunityVO {
 
 	@Override
 	public String toString() {
-		return "CommunityVO [categoryNo=" + categoryNo + ", boardNo=" + boardNo + ", title=" + title + ", content="
-				+ content + ", writer=" + writer + ", regDate=" + regDate + ", step=" + step + ", parentBoardNo="
-				+ parentBoardNo + "]";
+		return "CommunityVO [categoryNo=" + categoryNo + ", boardNo=" + boardNo + ", title=" + title + ", writer="
+				+ writer + ", regDate=" + regDate + ", step=" + step + ", parentBoardNo=" + parentBoardNo + "]";
 	}
+
 	
 }

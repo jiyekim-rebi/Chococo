@@ -21,8 +21,9 @@ $(document).ready(function(){
 		
 		var createNameOk = $(".createNameOk").val();
 		var createEmailOk = $(".createEmailOk").val();
+		var createPasswordOk = $(".createPasswordOk").val();
 		
-		if(createNameOk != "OK" || createEmailOk != "OK"){
+		if(createNameOk != "OK" || createEmailOk != "OK" || createPasswordOk != "OK"){
 			alert("입력 정보를 확인해주세요!");
 			return ;
 		}
@@ -118,9 +119,11 @@ $(document).ready(function(){
 	});
 	
 	//2020.03.27 이름, 이메일 중복 체크 관련 세팅
+	//2020.04.21 이름 4글자 미만도 가입 못하게 :)
 	$(".isUserNameCheck").keyup(function(){
-		if($(".isUserNameCheck").val().length == 0){
-			$(".isChkName").html("<i class='fas fa-times text-danger' style='padding-right: 10px;'></i>이름을 입력해주세요!");
+		if($(".isUserNameCheck").val().length < 4){
+			$(".isChkName").html("<i class='fas fa-times text-danger' style='padding-right: 10px;'></i>이름은 4글자 이상 입력해주세요!");
+			$(".createNameOk").val("NO");
 		//2020.04.03 이름 10글자 이상 가입 못하게 막기.
 		} else if ($(".isUserNameCheck").val().length < 11) {
 			$.ajax({
@@ -144,9 +147,12 @@ $(document).ready(function(){
 		};
 	});
 	
+	//2020.03.27 이메일 중복 체크 관련 세팅
+	//2020.04.21 이메일 정규식에 맞게.
 	$(".isUserEmailCheck").keyup(function(){
-		if($(".isUserEmailCheck").val().length == 0){
-			$(".isChkEmail").html("<i class='fas fa-times text-danger' style='padding-right: 10px;'></i>이름을 입력해주세요!");
+		if($(".isUserEmailCheck").val().length == 0 || isEmail($(".isUserEmailCheck").val()) == false){
+			$(".isChkEmail").html("<i class='fas fa-times text-danger' style='padding-right: 10px;'></i>정상적인 이메일이 아닙니다!");
+			$(".createEmailOk").val("NO");
 		} else {
 			$.ajax({
 	            type: "POST",
@@ -166,6 +172,18 @@ $(document).ready(function(){
 		}
 	});
 	
+	//2020.04.21 비밀번호 8-15글자 사이로 숫자&영문조합
+	$(".isUserPasswordCheck").keyup(function(){
+		var userPass = $(".isUserPasswordCheck").val();
+		if(isPassword(userPass) == false){
+			$(".isChkPassword").html("<i class='fas fa-times text-danger' style='padding-right: 10px;'></i>영문, 숫자 조합으로 8-15글자여야 합니다!");
+			$(".createPasswordOk").val("NO");
+		} else {
+			$(".isChkPassword").html("<i class='fas fa-check text-success' style='padding-right: 10px;'></i>입력하신 비밀번호는 사용할 수 있습니다.");
+			$(".createPasswordOk").val("OK");
+		}
+	});
+	
 	//2020.04.03 mypage - coupon Add
 	$(".mypageCouponAddCtr").click(function(){
 		var formObj = $("form[name='mypageCouponAddForm']");
@@ -175,3 +193,17 @@ $(document).ready(function(){
 	});
 	
 })
+
+
+//2020.04.21 이메일 양식 정규식
+//형식에 맞으면 true 반환
+function isEmail(userEmail) {
+		var emailTest = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		return emailTest.test(userEmail);
+}
+
+//2020.04.21 비밀번호 8-10글자 영문&숫자 조합
+function isPassword(userPass) {
+	var passwordTest = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,15}$/;
+	return passwordTest.test(userPass);
+}

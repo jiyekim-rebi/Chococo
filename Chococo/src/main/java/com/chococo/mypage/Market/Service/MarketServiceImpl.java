@@ -119,4 +119,9 @@ public class MarketServiceImpl implements MarketService {
 		return marketDAO.trandingProducts();
 	}
 
+	@Override
+	public int reviewProductCheck(ReviewVO review) throws Exception {
+		return marketDAO.reviewProductCheck(review);
+	}
+
 }
