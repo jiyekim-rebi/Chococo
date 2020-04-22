@@ -49,4 +49,6 @@ Market과 Community를 합쳐 즐거운 취미생활을 즐길 수 있는 사이
 
 
 ### Development term
-2020/03/02 ~ 2020/04/05 (35일간)
+2020/03/02 ~ 2020/04/09 (39일간), 2020/04/20 ~ ing, 1인 프로젝트
+
+https://www.slideshare.net/secret/NCgaaei0yxPKHD
