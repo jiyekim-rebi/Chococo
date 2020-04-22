@@ -427,7 +427,7 @@ public class MarketController {
 
 		try {
 			market.reviewInsert(review);
-			model.addAttribute("msg", "작성하신 리뷰를 수정하였습니다.");
+			model.addAttribute("msg", "작성하신 리뷰를 등록하였습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("msg", "오류가 발생했습니다. 시스템 관리자에게 문의하세요.");

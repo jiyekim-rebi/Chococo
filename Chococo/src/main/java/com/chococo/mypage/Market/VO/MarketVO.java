@@ -147,8 +147,9 @@ public class MarketVO {
 	public String toString() {
 		return "MarketVO [productNo=" + productNo + ", productName=" + productName + ", price=" + price
 				+ ", selectOption=" + selectOption + ", regDate=" + regDate + ", imageFileName=" + imageFileName
-				+ ", hit=" + hit + ", subCategory=" + subCategory + ", content=" + content + ", mainCategory="
-				+ mainCategory + ", productStatus=" + productStatus + "]";
+				+ ", hit=" + hit + ", subCategory=" + subCategory + ", mainCategory=" + mainCategory
+				+ ", productStatus=" + productStatus + "]";
 	}
 
+	
 }
