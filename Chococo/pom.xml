@@ -11,7 +11,7 @@
 	<properties>
 		<java-version>1.8</java-version>
 		<!-- Tiles 사용을 위해 3.1.1 -> 4.1.1 버전 변경 -->
-		<org.springframework-version>4.1.1.RELEASE</org.springframework-version>
+		<org.springframework-version>5.2.21.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
